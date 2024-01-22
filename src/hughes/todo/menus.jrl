@@ -1,0 +1,12 @@
+p({
+  class: "foam.nanos.menu.Menu",
+  id: "toDoCalendar",
+  label: 'To Do',
+  handler: {
+    class: "foam.nanos.menu.DAOMenu2",
+    config: {
+      class: "foam.comics.v2.DAOControllerConfig",
+      daoKey: "toDoCalendarDAO"
+    }
+  }
+})
