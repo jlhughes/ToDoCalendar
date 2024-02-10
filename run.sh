@@ -1,2 +1,2 @@
 #!/bin/bash
-node foam3/tools/build.js -Ntodo "$@"
+node foam3/tools/build.js -Njournal "$@"

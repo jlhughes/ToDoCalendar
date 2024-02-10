@@ -1,6 +1,6 @@
 foam.CLASS({
-  package: 'hughes.todo',
-  name: 'ToDoCalendar',
+  package: 'hughes.journal',
+  name: 'Event',
 
   properties: [
     {

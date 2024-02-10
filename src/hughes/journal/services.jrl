@@ -1,15 +1,15 @@
 p({
   "class":"foam.nanos.boot.NSpec",
-  "name":"toDoCalendarDAO",
+  "name":"eventDAO",
   "serve":true,
   "authenticate": false,
   "serviceScript":"""
     return new foam.dao.EasyDAO.Builder(x)
-      .setOf(hughes.todo.ToDoCalendar.getOwnClassInfo())
+      .setOf(hughes.journal.Event.getOwnClassInfo())
       .setFuid(true)
       .setJournalType(foam.dao.JournalType.SINGLE_JOURNAL)
-      .setJournalName("todos")
+      .setJournalName("events")
       .build();
   """,
-  "client":"{\"of\":\"hughes.todo.ToDoCalendar\"}"
+  "client":"{\"of\":\"hughes.journal.Event\"}"
 })

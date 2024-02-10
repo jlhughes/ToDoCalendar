@@ -1,7 +1,7 @@
 foam.POM({
-  name: 'todo',
+  name: 'journal',
   files: [
-    { name: 'ToDoCalendar',
+    { name: 'Event',
       flags: 'js|java' }
   ]
 });

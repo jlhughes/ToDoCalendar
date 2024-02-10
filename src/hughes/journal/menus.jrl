@@ -1,12 +1,12 @@
 p({
   class: "foam.nanos.menu.Menu",
-  id: "toDoCalendar",
-  label: 'To Do',
+  id: "Event",
+//  label: 'Events',
   handler: {
     class: "foam.nanos.menu.DAOMenu2",
     config: {
       class: "foam.comics.v2.DAOControllerConfig",
-      daoKey: "toDoCalendarDAO"
+      daoKey: "eventDAO"
     }
   }
 })
