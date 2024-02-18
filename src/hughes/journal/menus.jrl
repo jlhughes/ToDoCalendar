@@ -1,12 +1,24 @@
 p({
   class: "foam.nanos.menu.Menu",
   id: "Event",
-//  label: 'Events',
+  label: "Events",
   handler: {
     class: "foam.nanos.menu.DAOMenu2",
     config: {
       class: "foam.comics.v2.DAOControllerConfig",
       daoKey: "eventDAO"
+    }
+  }
+})
+p({
+  class: "foam.nanos.menu.Menu",
+  id: "EventCateotry",
+  label: "Event Categories",
+  handler: {
+    class: "foam.nanos.menu.DAOMenu2",
+    config: {
+      class: "foam.comics.v2.DAOControllerConfig",
+      daoKey: "eventCategoryDAO"
     }
   }
 })
