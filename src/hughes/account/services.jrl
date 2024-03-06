@@ -1,0 +1,37 @@
+p({
+  "class":"foam.nanos.boot.NSpec",
+  "name":"accountDAO",
+  "lazy":false,
+  "serve":true,
+  "authenticate": false,
+  "serviceScript":"""
+    return new foam.dao.EasyDAO.Builder(x)
+      .setOf(hughes.account.Account.getOwnClassInfo())
+      .setFuid(true)
+      .setJournalType(foam.dao.JournalType.SINGLE_JOURNAL)
+      .setJournalName("accounts")
+      .build();
+  """,
+  "client":"""
+    {
+      "of":"hughes.account.Account"
+    }
+  """
+})
+p({
+  "class":"foam.nanos.boot.NSpec",
+  "name":"balanceDAO",
+  "serve":true,
+  "authenticate": true,
+  "serviceScript":"""
+    return new foam.dao.EasyDAO.Builder(x)
+      .setOf(hughes.account.Balance.getOwnClassInfo())
+      .build();
+  """,
+  "client":"""
+    {
+      "of":"hughes.account.Balance"
+    }
+  """
+})
+// Add ReadOnlyDAO

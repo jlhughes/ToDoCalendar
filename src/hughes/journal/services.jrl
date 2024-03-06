@@ -1,6 +1,7 @@
 p({
   "class":"foam.nanos.boot.NSpec",
   "name":"eventDAO",
+  "lazy":false,
   "serve":true,
   "authenticate": false,
   "serviceScript":"""
@@ -9,6 +10,7 @@ p({
       .setFuid(true)
       .setJournalType(foam.dao.JournalType.SINGLE_JOURNAL)
       .setJournalName("events")
+      .setDecorator(new hughes.journal.EventTransactionDAO.Builder(x).setDelegate(new foam.dao.NullDAO(x, hughes.journal.Event.getOwnClassInfo())).build())
       .build();
   """,
   "client":"""

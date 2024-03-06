@@ -1,7 +1,9 @@
 foam.POM({
-  name: 'hughes',
+  name: 'hughes_journal',
+  vendorId: 'hughes',
+  version: '1.0.0',
   projects: [
     { name: 'foam3/pom' },
-    { name: 'src/hughes/journal/pom' }
+    { name: 'src/hughes/pom' }
   ]
 });

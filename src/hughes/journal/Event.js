@@ -41,7 +41,6 @@ categories
   ],
 
   imports: [
-    'controllerMode',
     'currencyDAO',
     'eventDAO',
     'userDAO'
@@ -89,39 +88,6 @@ categories
     'status'
   ],
 
-  // sections: [
-  //   {
-  //     name: 'whatSection'
-  //   },
-  //   {
-  //     name: 'whereSection'
-  //   },
-  //   {
-  //     name: 'whenSection'
-  //   },
-  //   {
-  //     name: 'whySection'
-  //   },
-  //   {
-  //     name: 'whoSection'
-  //   },
-  //   {
-  //     name: 'ledgerSection'
-  //   },
-  //   {
-  //     name: 'attachmentSection'
-  //   },
-  //   {
-  //     name: 'accessSection'
-  //   }
-  //   {
-  //     name: 'parentInformation'
-  //   },
-  //   {
-  //     name: 'userInformation'
-  //   }
-  // ],
-
   properties: [
     {
       name: 'eventCategory',
@@ -129,8 +95,8 @@ categories
       of: 'hughes.journal.EventCategory',
       label: 'Category',
       value: 'ToDo',
-      section: 'whatSection',
-      gridColumns: 6
+      order: 1,
+      gridColumns: 4
     },
     // additional categories
     {
@@ -138,99 +104,48 @@ categories
       class: 'Enum',
       of: 'hughes.journal.Status',
       value: 'OPEN',
-      section: 'whatSection',
-      gridColumns: 6
+      order: 2,
+      gridColumns: 4
+    },
+    {
+      documentation: 'Other user access to this Event',
+      name: 'access',
+      class: 'Enum',
+      of: 'hughes.journal.AccessLevel',
+      value: 'PRIVATE',
+      order: 3,
+      gridColumns: 4
     },
     {
       name: 'what',
       class: 'String',
       required: true,
-      section: 'whatSection'
+      order: 4,
+      gridColumns: 4
     },
     {
       name: 'where',
       class: 'String',
-      section: 'whereSection'
-    },
-    {
-      name: 'when',
-      class: 'Enum',
-      of: 'hughes.journal.WhenChoice',
-      value: 'ALL_DAY',
-      section: 'whenSection',
-      gridColumns: 6
-    },
-    {
-      name: 'date',
-      class: 'Date',
-      visibility: function(when) {
-        if ( when ==  this.WhenChoice.ALL_DAY ) {
-          if ( !this.controllerMode || this.controllerMode == 'EDIT' ) {
-            return foam.u2.DisplayMode.RW;
-          }
-          return foam.u2.DisplayMode.RO;
-        }
-        return foam.u2.DisplayMode.HIDDEN;
-      },
-      section: 'whenSection',
-      gridColumns: 6
-    },
-    {
-      name: 'startDateTime',
-      class: 'DateTime',
-      visibility: function(when) {
-        if ( when ==  this.WhenChoice.BETWEEN ) {
-          if ( !this.controllerMode || this.controllerMode == 'EDIT' ) {
-            return foam.u2.DisplayMode.RW;
-          }
-          return foam.u2.DisplayMode.RO;
-        }
-        return foam.u2.DisplayMode.HIDDEN;
-      },
-      section: 'whenSection',
-      gridColumns: 6
-    },
-    {
-      name: 'endDateTime',
-      class: 'DateTime',
-      visibility: function(when) {
-        if ( when ==  this.WhenChoice.BETWEEN ) {
-          if ( !this.controllerMode || this.controllerMode == 'EDIT' ) {
-            return foam.u2.DisplayMode.RW;
-          }
-          return foam.u2.DisplayMode.RO;
-        }
-        return foam.u2.DisplayMode.HIDDEN;
-      },
-      section: 'whenSection',
-      gridColumns: 6
-    },
-    {
-      name: 'schedule',
-      class: 'FObjectProperty',
-      of: 'foam.nanos.cron.Schedule',
-      visibility: function(when) {
-        if ( when ==  this.WhenChoice.SCHEDULE ) {
-          if ( !this.controllerMode || this.controllerMode == 'EDIT' ) {
-            return foam.u2.DisplayMode.RW;
-          }
-          // TOOD: some summary view
-          return foam.u2.DisplayMode.HIDDEN;
-        }
-        return foam.u2.DisplayMode.HIDDEN;
-      },
-      view: {
-        class: 'foam.u2.view.FObjectView',
-        of: 'foam.nanos.cron.Schedule'
-      },
-      section: 'whenSection'
+      order: 5,
+      gridColumns: 4
     },
     {
       name: 'who',
       class: 'Reference',
       of: 'foam.nanos.auth.User',
-      section: 'whoSection'
       // TODO: where group journal
+      order: 6,
+      gridColumns: 4
+    },
+    {
+      name: 'when',
+      class: 'FObjectProperty',
+      of: 'foam.nanos.cron.Schedule',
+      factory: function() {
+        return hughes.journal.DaySchedule.create({'date': Date.now()});
+      },
+      order: 7,
+      gridColumns: 6
     },
     // array 'whoElse' ?
     {
@@ -240,47 +155,60 @@ categories
         class: 'foam.u2.tag.TextArea',
         rows: 4, cols: 60,
       },
-      section: 'whySection'
-    },
-    {
-      name: 'ledgerCategory',
-      class: 'Enum',
-      of: 'hughes.journal.LedgerCategory',
-      label: 'Ledger',
-      value: 'NA',
-      section: 'ledgerSection',
+      order: 8,
       gridColumns: 6
     },
     {
-      name: 'ledgerValue',
-      class: 'UnitValue',
-      unitPropName: 'currency',
-      label: 'Amount',
-      section: 'ledgerSection',
-      gridColumns: 6,
-      visibility: function(ledgerCategory) {
-        if ( ledgerCategory == this.LedgerCategory.NA ) {
-          return foam.u2.DisplayMode.HIDDEN;
+      name: 'transaction',
+      class: 'FObjectProperty',
+      of: 'hughes.ledger.Transaction',
+      label: 'Ledger',
+      createVisibility: 'RW',
+      updateVisibility: function(transaction) {
+        if ( transaction ) {
+          if ( ! transaction.id ) {
+            return foam.u2.DisplayMode.RW;
+          } else {
+            return foam.u2.DisplayMode.RO;
+          }
         }
-        if ( !this.controllerMode || this.controllerMode == 'EDIT' ) {
-          return foam.u2.DisplayMode.RW;
-        }
-        return foam.u2.DisplayMode.RO;
+        return foam.u2.DisplayMode.HIDDEN;
       },
+      readVisibility: function(transaction) {
+        if ( transaction ) {
+          return foam.u2.DisplayMode.RO;
+        }
+        return foam.u2.DisplayMode.HIDDEN;
+      },
+      // view: summary
+      order: 9,
+      gridColumns: 6
     },
-    {
-      class: 'Reference',
-      name: 'currency',
-      of: 'foam.core.Currency',
-      targetDAO: 'currencyDAO',
-      value: 'CAD',
-      visibility: 'HIDDEN',
-      section: 'ledgerSection'
-    },
+    // {
+    //   name: 'transactionId',
+    //   class: 'Reference',
+    //   of: 'hughes.ledger.Transaction',
+    //   label: 'Ledger',
+    //   createVisibility: 'HIDDEN',
+    //   updateVisibility: function(transactionId) {
+    //     if ( transactionId ) {
+    //       return foam.u2.DisplayMode.RO;
+    //     }
+    //     return foam.u2.DisplayMode.HIDDEN;
+    //   },
+    //   readVisibility: function(transactionId) {
+    //     if ( transactionId ) {
+    //       return foam.u2.DisplayMode.RO;
+    //     }
+    //     return foam.u2.DisplayMode.HIDDEN;
+    //   },
+    //   // view: summary
+    //   order: 9,
+    //   gridColumns: 6
+    // },
     {
       class: 'foam.nanos.fs.FileArray',
       name: 'attachments',
-      section: 'attachmentSection',
       tableCellFormatter: function(files) {
         if ( ! (Array.isArray(files) && files.length > 0) ) return;
         var actions = files.map((file) => {
@@ -307,24 +235,17 @@ categories
             '*' : 'Any'
           }
         };
-      }
+      },
+      order: 10,
+      gridColumns: 6,
     },
     {
       name: 'id',
       class: 'String',
       createVisibility: 'HIDDEN',
       updateVisibility: 'RO',
-      section: 'userInformation',
-      gridColumns: 6
-    },
-    {
-      documentation: 'Other user access to this Event',
-      name: 'access',
-      class: 'Enum',
-      of: 'hughes.journal.AccessLevel',
-      value: 'PRIVATE',
-      section: 'userInformation',
-      gridColumns: 6
+      order: 11,
+      gridColumns: 12
     }
   ],
 

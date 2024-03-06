@@ -1,7 +1,7 @@
 foam.RELATIONSHIP({
   sourceModel: 'hughes.journal.Event',
-  forwardName: 'children',
   targetModel: 'hughes.journal.Event',
+  forwardName: 'children',
   invserseName: 'parent',
   cardinality: '1:*',
   sourceProperty: {
