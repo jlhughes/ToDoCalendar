@@ -13,6 +13,8 @@ foam.POM({
       flags: 'js|java' },
     { name: 'EventTransactionDAO',
       flags: 'js|java' },
+    { name: 'Password',
+      flags: 'js|java' },
     { name: 'Status',
       flags: 'js|java' }
   ]

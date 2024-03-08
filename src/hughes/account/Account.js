@@ -49,28 +49,6 @@ foam.CLASS({
       name: 'name',
       class: 'String'
     },
-    // {
-    //   name: 'summary',
-    //   class: 'String',
-    //   createVisibility: 'RO',
-    //   expression: function(name, number) {
-    //     return name + " " + this.mask(number);
-    //   },
-    //   javaFactory: `
-    //   StringBuilder sb = new StringBuilder();
-    //   sb.append(getName());
-    //   if ( ! SafetyUtil.isEmpty(getNumber()) ) {
-    //     sb.append(" ");
-    //     sb.append(mask(getNumber()));
-    //   }
-    //   foam.nanos.auth.User user = findOwner(getX());
-    //   if ( user != null ) {
-    //     sb.append(" - ");
-    //     sb.append(user.toSummary());
-    //   }
-    //   return sb.toString();
-    //   `
-    // },
     {
       name: 'owner',
       class: 'Reference',

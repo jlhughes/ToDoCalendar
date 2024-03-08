@@ -31,3 +31,15 @@ p({
   },
   "parent": "journalAdmin"
 })
+p({
+  "class": "foam.nanos.menu.Menu",
+  "id": "password",
+  "label": "Passwords",
+  "handler": {
+    "class": "foam.nanos.menu.DAOMenu2",
+    "config": {
+      "class": "foam.comics.v2.DAOControllerConfig",
+      "daoKey": "passwordDAO"
+    }
+  }
+})
