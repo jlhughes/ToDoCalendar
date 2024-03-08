@@ -79,13 +79,18 @@ categories
   tableColumns: [
     'eventCategory',
     'status',
+    'who',
     'what',
     'when'
   ],
 
   searchColumns: [
     'eventCategory',
-    'status'
+    'status',
+    'who',
+    'what',
+    'where',
+    'why'
   ],
 
   properties: [
@@ -117,26 +122,33 @@ categories
       gridColumns: 4
     },
     {
+      name: 'who',
+      class: 'Reference',
+      of: 'foam.nanos.auth.User',
+      // TODO: where group journal,
+      tableCellFormatter: function(value, obj) {
+        var self = this;
+        obj.userDAO.find(value).then(function(u) {
+          self.add(u.toSummary());
+        })
+      },
+      order: 4,
+      gridColumns: 4
+    },
+    {
       name: 'what',
       class: 'String',
       required: true,
-      order: 4,
+      order: 5,
       gridColumns: 4
     },
     {
       name: 'where',
       class: 'String',
-      order: 5,
-      gridColumns: 4
-    },
-    {
-      name: 'who',
-      class: 'Reference',
-      of: 'foam.nanos.auth.User',
-      // TODO: where group journal
       order: 6,
       gridColumns: 4
     },
+    // array 'whoElse' ?
     {
       name: 'when',
       class: 'FObjectProperty',
@@ -144,10 +156,15 @@ categories
       factory: function() {
         return hughes.journal.DaySchedule.create({'date': Date.now()});
       },
+      tableCellFormatter: function(value, obj) {
+        var self = this;
+        if ( obj.when && obj.when.getNextScheduledTime ) {
+          this.add(obj.when.getNextScheduledTime());
+        }
+      },
       order: 7,
       gridColumns: 6
     },
-    // array 'whoElse' ?
     {
       name: 'why',
       class: 'Code',
@@ -180,33 +197,17 @@ categories
         }
         return foam.u2.DisplayMode.HIDDEN;
       },
-      // view: summary
+      // view: function(_, X) {
+      //   if ( X.data.transaction && X.data.transaction.id ) {
+      //     return foam.u2.view.StringView.create({data: X.data.transaction.toSummary()});
+      //   }
+      // TODO: decorate accountDAO by 'who'
+      //   return foam.u2.view.FObjectPropertyView.create({of: X.data.TRANSACTION.of, data: X.data.transaction || hughes.ledger.Transaction.create()});
+      // },
       order: 9,
       gridColumns: 6
     },
-    // {
-    //   name: 'transactionId',
-    //   class: 'Reference',
-    //   of: 'hughes.ledger.Transaction',
-    //   label: 'Ledger',
-    //   createVisibility: 'HIDDEN',
-    //   updateVisibility: function(transactionId) {
-    //     if ( transactionId ) {
-    //       return foam.u2.DisplayMode.RO;
-    //     }
-    //     return foam.u2.DisplayMode.HIDDEN;
-    //   },
-    //   readVisibility: function(transactionId) {
-    //     if ( transactionId ) {
-    //       return foam.u2.DisplayMode.RO;
-    //     }
-    //     return foam.u2.DisplayMode.HIDDEN;
-    //   },
-    //   // view: summary
-    //   order: 9,
-    //   gridColumns: 6
-    // },
-    {
+     {
       class: 'foam.nanos.fs.FileArray',
       name: 'attachments',
       tableCellFormatter: function(files) {
@@ -250,6 +251,19 @@ categories
   ],
 
   methods: [
+    {
+      name: 'toSummary',
+      type: 'String',
+      code: async function() {
+        var summary = this.eventCategory;
+        if ( this.who ) {
+          var user = await this.who$find;
+          summary += " " +user.toSummary();
+        }
+        summary += " "+ this.what + " " + this.status;
+        return summary;
+      }
+    },
     {
       name: 'authorizeOnCreate',
       args: 'X x',

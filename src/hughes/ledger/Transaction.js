@@ -21,6 +21,11 @@ foam.CLASS({
     'direction'
   ],
 
+  searchColumns: [
+    'id',
+    'amount'
+  ],
+
   properties: [
     {
       name: 'id',
@@ -52,6 +57,12 @@ foam.CLASS({
       },
       readVisibility: function() {
         return foam.u2.DisplayMode.RO;
+      },
+      tableCellFormatter: function(val, obj) {
+        var self = this;
+        obj.accountDAO.find(obj.account).then(function(a) {
+          self.add(a.toSummary());
+        });
       },
       gridColumns: 2
     },
@@ -176,8 +187,10 @@ foam.CLASS({
     {
       name: 'toSummary',
       type: 'String',
-      code: function() {
-        return this.account + " " + this.amount + " " + this.direction;
+      code: async function() {
+        var account = await this.account$find;
+        var currency = await account.currency$find;
+        return account.toSummary() + " " + (currency ? currency.format(this.amount) : this.amount) + " " + this.direction;
       }
     }
   ]

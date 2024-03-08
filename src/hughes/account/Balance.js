@@ -5,7 +5,8 @@ foam.CLASS({
   ids: ['account'],
 
   imports: [
-    'accountDAO'
+    'accountDAO',
+    'currencyDAO'
   ],
 
   properties: [
@@ -15,19 +16,32 @@ foam.CLASS({
       name: 'account',
       visibility: 'RO',
       tableCellFormatter: function(value, obj) {
+        var self = this;
         obj.accountDAO.find(value).then(function(acc) {
           if ( acc ) {
-            this.add(value + ' - ' + acc.toSummary());
+            self.add(acc.toSummary());
           } else {
-            this.add(value);
+            self.add(value);
           }
-        }.bind(this));
+        });
       }
     },
     {
       name: 'balance',
       class: 'Long',
-      visibility: 'RO'
+      visibility: 'RO',
+      tableCellFormatter: function(value, obj) {
+        var self = this;
+        obj.accountDAO.find(obj.account).then(function(a) {
+          obj.currencyDAO.find(a.currency).then(function(c) {
+            if ( c ) {
+              self.add(c.format(value));
+            } else {
+              self.add(value);
+            }
+          });
+        });
+      }
     }
   ]
 });

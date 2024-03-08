@@ -90,9 +90,19 @@ foam.CLASS({
 
   methods: [
     {
+      name: 'toSummary',
+      type: 'String',
+      code: function() {
+        return this.getNextScheduledTime();
+      }
+    },
+    {
       name: 'getNextScheduledTime',
       type: 'DateTime',
       args: 'X x, java.util.Date from',
+      code: function() {
+        return this.startDate;
+      },
       javaCode: `
       return getStartDate();
       `
