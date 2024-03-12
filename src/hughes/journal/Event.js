@@ -55,7 +55,6 @@ categories
     'foam.nanos.auth.User',
     'hughes.journal.AccessLevel',
     'hughes.journal.EventCategory',
-    'hughes.journal.LedgerCategory',
     'hughes.journal.WhenChoice',
     'hughes.journal.Status'
   ],
@@ -95,6 +94,14 @@ categories
 
   properties: [
     {
+      name: 'id',
+      class: 'String',
+      createVisibility: 'HIDDEN',
+      updateVisibility: 'RO',
+      order: 11,
+      gridColumns: 12
+    },
+    {
       name: 'eventCategory',
       class: 'Reference',
       of: 'hughes.journal.EventCategory',
@@ -129,8 +136,8 @@ categories
       tableCellFormatter: function(value, obj) {
         var self = this;
         obj.userDAO.find(value).then(function(u) {
-          self.add(u.toSummary());
-        })
+          if ( u ) self.add(u.toSummary());
+        });
       },
       order: 4,
       gridColumns: 4
@@ -207,7 +214,7 @@ categories
       order: 9,
       gridColumns: 6
     },
-     {
+    {
       class: 'foam.nanos.fs.FileArray',
       name: 'attachments',
       tableCellFormatter: function(files) {
@@ -239,14 +246,6 @@ categories
       },
       order: 10,
       gridColumns: 6,
-    },
-    {
-      name: 'id',
-      class: 'String',
-      createVisibility: 'HIDDEN',
-      updateVisibility: 'RO',
-      order: 11,
-      gridColumns: 12
     }
   ],
 
@@ -339,6 +338,36 @@ categories
           this.throwError.pub(e);
           X.notify(e.message, '', this.LogLevel.ERROR, true);
         });
+      }
+    },
+    {
+      name: 'followUp',
+      isAvailable: function() {
+        return this.id;
+      },
+      code: async function(X) {
+        if ( X.memento ) {
+          X = X.createSubContext({memento: X.memento.tail});
+        }
+
+        var event = hughes.journal.Event.create({
+          parent: X.data.id,
+          eventCategory: X.data.eventCategory,
+          access: X.data.access,
+          who: X.data.who,
+          what: X.data.what,
+          where: X.data.where
+        });
+
+        X.stack.push({
+          class: 'foam.comics.v2.DAOUpdateView',
+          data: event,
+          config: {
+            class: 'foam.comics.v2.DAOControllerConfig',
+            dao: X.eventDAO,
+            browseTitle: `${this.toSummary()} Follow Up`
+          }
+        }, X);
       }
     }
   ]

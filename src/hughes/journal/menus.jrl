@@ -9,7 +9,7 @@ p({
 p({
   "class": "foam.nanos.menu.Menu",
   "id": "event",
-  "label": "Journal Events",
+  "label": "Events",
   "handler": {
     "class": "foam.nanos.menu.DAOMenu2",
     "config": {
@@ -40,6 +40,18 @@ p({
     "config": {
       "class": "foam.comics.v2.DAOControllerConfig",
       "daoKey": "passwordDAO"
+    }
+  }
+})
+p({
+  "class": "foam.nanos.menu.Menu",
+  "id": "asset",
+  "label": "Assets",
+  "handler": {
+    "class": "foam.nanos.menu.DAOMenu2",
+    "config": {
+      "class": "foam.comics.v2.DAOControllerConfig",
+      "daoKey": "assetDAO"
     }
   }
 })

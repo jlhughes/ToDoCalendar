@@ -1,5 +1,41 @@
 p({
   "class":"foam.nanos.boot.NSpec",
+  "name":"accountDAO",
+  "lazy":false,
+  "serve":true,
+  "serviceScript":"""
+    return new foam.dao.EasyDAO.Builder(x)
+      .setOf(hughes.ledger.Account.getOwnClassInfo())
+      .setFuid(true)
+      .setJournalType(foam.dao.JournalType.SINGLE_JOURNAL)
+      .setJournalName("accounts")
+      .build()
+      .orderBy(foam.mlang.MLang.DESC(hughes.ledger.Account.LAST_MODIFIED));
+  """,
+  "client":"""
+    {
+      "of":"hughes.ledger.Account"
+    }
+  """
+})
+p({
+  "class":"foam.nanos.boot.NSpec",
+  "name":"balanceDAO",
+  "serve":true,
+  "authenticate": true,
+  "serviceScript":"""
+    return new foam.dao.EasyDAO.Builder(x)
+      .setOf(hughes.ledger.Balance.getOwnClassInfo())
+      .build();
+  """,
+  "client":"""
+    {
+      "of":"hughes.ledger.Balance"
+    }
+  """
+})
+p({
+  "class":"foam.nanos.boot.NSpec",
   "name":"accountCodeDAO",
   "serve":true,
   "authenticate": false,
@@ -33,7 +69,8 @@ p({
       .setMdao(dao)
       .setJournalType(foam.dao.JournalType.SINGLE_JOURNAL)
       .setJournalName("transactions")
-      .build();
+      .build()
+      .orderBy(foam.mlang.MLang.DESC(hughes.ledger.Transaction.CREATED));
   """,
   "client":"""
     {

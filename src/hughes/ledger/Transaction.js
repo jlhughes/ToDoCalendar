@@ -47,7 +47,7 @@ foam.CLASS({
     {
       name: 'account',
       class: 'Reference',
-      of: 'hughes.account.Account',
+      of: 'hughes.ledger.Account',
       createVisibility: 'RW',
       updateVisibility: function(id) {
         if ( ! id ) {

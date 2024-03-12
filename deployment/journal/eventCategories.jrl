@@ -18,3 +18,7 @@ p({
   class: "hughes.journal.EventCategory",
   id: "TopUp"
 })
+p({
+  class: "hughes.journal.EventCategory",
+  id: "Maintenance"
+})

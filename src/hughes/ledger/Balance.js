@@ -1,5 +1,5 @@
 foam.CLASS({
-  package: 'hughes.account',
+  package: 'hughes.ledger',
   name: 'Balance',
 
   ids: ['account'],
@@ -12,7 +12,7 @@ foam.CLASS({
   properties: [
     {
       class: 'Reference',
-      of: 'hughes.account.Account',
+      of: 'hughes.ledger.Account',
       name: 'account',
       visibility: 'RO',
       tableCellFormatter: function(value, obj) {

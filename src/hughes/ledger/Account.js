@@ -1,5 +1,5 @@
 foam.CLASS({
-  package: 'hughes.account',
+  package: 'hughes.ledger',
   name: 'Account',
 
   implements: [
@@ -18,6 +18,7 @@ foam.CLASS({
   javaImports: [
     'foam.core.X',
     'foam.dao.DAO',
+    'static foam.mlang.MLang.EQ',
     'foam.nanos.logger.Loggers',
     'foam.util.SafetyUtil',
     'hughes.ledger.Direction'
@@ -58,7 +59,7 @@ foam.CLASS({
         var self = this;
         obj.userDAO.find(value).then(function(u) {
           self.add(u.toSummary());
-        })
+        });
       },
     },
     {
@@ -79,21 +80,33 @@ foam.CLASS({
       createVisibility: 'HIDDEN',
       updateVisibility: 'RO',
       javaGetter: `
-        return (Long) findBalance(foam.core.XLocator.get());
+        return (Long) findBalance(getX()); // foam.core.XLocator.get());
       `,
       storageTransient: true,
-      tableCellFormatter: function(value, obj) {
-        var self = this;
-        obj.balanceDAO.find(obj.id).then(function(b) {
-          obj.currencyDAO.find(obj.currency).then(function(c) {
-            if ( c ) {
-              self.add(c.format(b.balance));
-            } else {
-              self.add(b.balance);
-            }
-          });
-        });
-      }
+      // tableCellFormatter: function(value, obj) {
+      //   var self = this;
+      //   obj.balanceDAO.find(obj.id).then(function(b) {
+      //     obj.currencyDAO.find(obj.currency).then(function(c) {
+      //       if ( c ) {
+      //         self.add(c.format(b.balance));
+      //       } else {
+      //         self.add(b.balance);
+      //       }
+      //     });
+      //   });
+      // }
+    },
+    {
+      class: 'UnitValue',
+      unitPropName: 'currency',
+      name: 'total',
+      createVisibility: 'HIDDEN',
+      updateVisibility: 'RO',
+      // TODO: don't clone or freeze
+      javaGetter: `
+        return findTotal(getX()); // foam.core.XLocator.get());
+      `,
+      storageTransient: true
     },
     {
       name: 'currency',
@@ -154,12 +167,12 @@ foam.CLASS({
       name: 'findBalance',
       type: 'Long',
       args: 'X x',
-      code: async function(x) {
-        var bal = await x.balanceDAO?.find(this.id);
-        if ( bal != null )
-          return bal.balance;
-        return 0;
-      },
+      // code: async function(x) {
+      //   var bal = await x.balanceDAO?.find(this.id);
+      //   if ( bal != null )
+      //     return bal.balance;
+      //   return 0;
+      // },
       javaCode: `
         try {
           Balance bal = (Balance) ((DAO) x.get("balanceDAO")).find(getId());
@@ -169,6 +182,16 @@ foam.CLASS({
           Loggers.logger(getX(), this).warning(t);
         }
         return 0L;
+      `
+    },
+    {
+      name: 'findTotal',
+      type: 'Long',
+      args: 'X x',
+      javaCode: `
+        AccountBalanceSink sink = new AccountBalanceSink(x);
+        ((DAO) x.get("accountDAO")).where(EQ(Account.ID, getId())).select(sink);
+        return sink.getTotal();
       `
     },
     {

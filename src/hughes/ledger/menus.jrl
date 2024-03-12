@@ -1,5 +1,17 @@
 p({
   "class": "foam.nanos.menu.Menu",
+  "id": "account",
+  "label": "Accounts",
+  "handler": {
+    "class": "foam.nanos.menu.DAOMenu2",
+    "config": {
+      "class": "foam.comics.v2.DAOControllerConfig",
+      "daoKey": "accountDAO"
+    }
+  }
+})
+p({
+  "class": "foam.nanos.menu.Menu",
   "id": "accountCode",
   "label": "Account Codes",
   "handler": {

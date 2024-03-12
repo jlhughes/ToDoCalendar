@@ -8,7 +8,7 @@ foam.CLASS({
   javaImports: [
     'foam.dao.DAO',
     'foam.nanos.logger.Loggers',
-    'hughes.account.Account'
+    'hughes.ledger.Account'
   ],
 
   methods: [
