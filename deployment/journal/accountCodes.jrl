@@ -1,0 +1,16 @@
+p({
+  class: "hughes.ledger.AccountCode",
+  id: "cash"
+})
+p({
+  class: "hughes.ledger.AccountCode",
+  id: "asset"
+})
+p({
+  class: "hughes.ledger.AccountCode",
+  id: "capital"
+})
+p({
+  class: "hughes.ledger.AccountCode",
+  id: "expense"
+})

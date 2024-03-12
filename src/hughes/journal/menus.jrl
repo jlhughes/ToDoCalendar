@@ -1,24 +1,57 @@
 p({
-  class: "foam.nanos.menu.Menu",
-  id: "Event",
-  label: "Events",
-  handler: {
-    class: "foam.nanos.menu.DAOMenu2",
-    config: {
-      class: "foam.comics.v2.DAOControllerConfig",
-      daoKey: "eventDAO"
+  "class": "foam.nanos.menu.Menu",
+  "id": "journalAdmin",
+  "label": "Journal Admin",
+  "handler": {
+    "class": "foam.nanos.menu.SubMenu"
+  }
+})
+p({
+  "class": "foam.nanos.menu.Menu",
+  "id": "event",
+  "label": "Events",
+  "handler": {
+    "class": "foam.nanos.menu.DAOMenu2",
+    "config": {
+      "class": "foam.comics.v2.DAOControllerConfig",
+      "daoKey": "eventDAO"
     }
   }
 })
 p({
-  class: "foam.nanos.menu.Menu",
-  id: "EventCateotry",
-  label: "Event Categories",
-  handler: {
-    class: "foam.nanos.menu.DAOMenu2",
-    config: {
-      class: "foam.comics.v2.DAOControllerConfig",
-      daoKey: "eventCategoryDAO"
+  "class": "foam.nanos.menu.Menu",
+  "id": "eventCategory",
+  "label": "Event Categories",
+  "handler": {
+    "class": "foam.nanos.menu.DAOMenu2",
+    "config": {
+      "class": "foam.comics.v2.DAOControllerConfig",
+      "daoKey": "eventCategoryDAO"
+    }
+  },
+  "parent": "journalAdmin"
+})
+p({
+  "class": "foam.nanos.menu.Menu",
+  "id": "password",
+  "label": "Passwords",
+  "handler": {
+    "class": "foam.nanos.menu.DAOMenu2",
+    "config": {
+      "class": "foam.comics.v2.DAOControllerConfig",
+      "daoKey": "passwordDAO"
+    }
+  }
+})
+p({
+  "class": "foam.nanos.menu.Menu",
+  "id": "asset",
+  "label": "Assets",
+  "handler": {
+    "class": "foam.nanos.menu.DAOMenu2",
+    "config": {
+      "class": "foam.comics.v2.DAOControllerConfig",
+      "daoKey": "assetDAO"
     }
   }
 })

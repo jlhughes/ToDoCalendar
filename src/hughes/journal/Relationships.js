@@ -1,15 +1,22 @@
 foam.RELATIONSHIP({
   sourceModel: 'hughes.journal.Event',
-  forwardName: 'children',
   targetModel: 'hughes.journal.Event',
-  invserseName: 'parent',
+  forwardName: 'children',
+  inverseName: 'parent',
   cardinality: '1:*',
-  sourceProperty: {
-    section: 'parentInformation'
-  },
+  // sourceProperty: {
+  //   section: 'parentInformation'
+  // },
   targetProperty: {
-    section: 'parentInformation',
+  //   section: 'parentInformation',
     label: 'Parent',
     view: { class: 'foam.u2.view.ReferenceView', placeholder: '--' }
   }
+});
+
+foam.RELATIONSHIP({
+  sourceModel: 'hughes.journal.Asset',
+  targetModel: 'hughes.journal.Event',
+  forwardName: 'events',
+  inverseName: 'asset'
 });

@@ -1,6 +1,6 @@
 p({
   class: "hughes.journal.EventCategory",
-  id: "Todo"
+  id: "ToDo"
 })
 p({
   class: "hughes.journal.EventCategory",
@@ -13,4 +13,12 @@ p({
 p({
   class: "hughes.journal.EventCategory",
   id: "Purchase"
+})
+p({
+  class: "hughes.journal.EventCategory",
+  id: "TopUp"
+})
+p({
+  class: "hughes.journal.EventCategory",
+  id: "Maintenance"
 })

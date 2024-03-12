@@ -1,0 +1,42 @@
+p({
+  "class": "foam.nanos.menu.Menu",
+  "id": "account",
+  "label": "Accounts",
+  "handler": {
+    "class": "foam.nanos.menu.DAOMenu2",
+    "config": {
+      "class": "foam.comics.v2.DAOControllerConfig",
+      "daoKey": "accountDAO"
+    }
+  }
+})
+p({
+  "class": "foam.nanos.menu.Menu",
+  "id": "accountCode",
+  "label": "Account Codes",
+  "handler": {
+    "class": "foam.nanos.menu.DAOMenu2",
+    "config": {
+      "class": "foam.comics.v2.DAOControllerConfig",
+      "doaKey": "accountCodeDAO"
+    }
+  },
+  "parent": "journalAdmin"
+})
+
+p({
+  "class": "foam.nanos.menu.Menu",
+  "id": "transaction",
+  "label": "Transactions",
+  "handler": {
+    "class": "foam.nanos.menu.DAOMenu2",
+    "config": {
+      "class": "foam.comics.v2.DAOControllerConfig",
+      "doaKey": "transactionDAO",
+      "createPredicate":{"class":"foam.mlang.predicate.False"},
+      "editPredicate":{"class":"foam.mlang.predicate.False"},
+      "deletePredicate":{"class":"foam.mlang.predicate.False"}
+    }
+  },
+  "parent": "journalAdmin"
+})

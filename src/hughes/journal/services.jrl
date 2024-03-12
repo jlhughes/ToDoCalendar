@@ -1,6 +1,7 @@
 p({
   "class":"foam.nanos.boot.NSpec",
   "name":"eventDAO",
+  "lazy":false,
   "serve":true,
   "authenticate": false,
   "serviceScript":"""
@@ -9,7 +10,10 @@ p({
       .setFuid(true)
       .setJournalType(foam.dao.JournalType.SINGLE_JOURNAL)
       .setJournalName("events")
-      .build();
+      .setDecorator(new hughes.journal.EventTransactionDAO.Builder(x).setDelegate(new hughes.journal.EventStatusDAO.Builder(x).setDelegate(
+new foam.dao.NullDAO(x, hughes.journal.Event.getOwnClassInfo())).build()).build())
+      .build()
+      .orderBy(foam.mlang.MLang.DESC(hughes.journal.Event.WHEN));
   """,
   "client":"""
     {
@@ -38,6 +42,81 @@ p({
   "client":"""
     {
       "of":"hughes.journal.EventCategory"
+    }
+  """
+})
+p({
+  "class":"foam.nanos.boot.NSpec",
+  "name":"passwordDAO",
+  "serve":true,
+  "authenticate": false,
+  "serviceScript":"""
+    return new foam.dao.EasyDAO.Builder(x)
+      .setOf(hughes.journal.Password.getOwnClassInfo())
+      .setFuid(true)
+      .setJournalType(foam.dao.JournalType.SINGLE_JOURNAL)
+      .setJournalName("passwords")
+      .setDecorator(new foam.dao.history.HistoryDAO(x, "passwordHistoryDAO", new foam.dao.NullDAO.Builder(x).setOf(hughes.journal.Password.getOwnClassInfo()).build()))
+      .build()
+      .orderBy(foam.mlang.MLang.DESC(hughes.journal.Password.LAST_MODIFIED));
+  """,
+  "client":"""
+    {
+      "of":"hughes.journal.Password",
+      "cache":false,
+      "decorators":
+        [
+          {"class":"foam.nanos.fs.FileDAODecorator"},
+          {"class":"foam.nanos.fs.FileArrayDAODecorator"}
+        ]
+    }
+  """
+})
+p({
+  "class": "foam.nanos.boot.NSpec",
+  "name": "passwordHistoryDAO",
+  "description": "DAO containing any modifications made to password",
+  "serve": true,
+  "serviceScript":
+  """
+    return new foam.dao.EasyDAO.Builder(x)
+      .setSeqNo(true)
+      .setSeqPropertyName("seqNo")
+      .setJournalType(foam.dao.JournalType.SINGLE_JOURNAL)
+      .setJournalName("passwordHistory")
+      .setOf(foam.dao.history.HistoryRecord.getOwnClassInfo())
+      .build()
+      .orderBy(foam.mlang.MLang.DESC(foam.dao.history.HistoryRecord.TIMESTAMP));
+  """,
+  "client":
+  """
+    { "of": "foam.dao.history.HistoryRecord" }
+  """
+})
+p({
+  "class":"foam.nanos.boot.NSpec",
+  "name":"assetDAO",
+  "serve":true,
+  "authenticate": false,
+  "serviceScript":"""
+    return new foam.dao.EasyDAO.Builder(x)
+      .setOf(hughes.journal.Asset.getOwnClassInfo())
+      .setFuid(true)
+      .setJournalType(foam.dao.JournalType.SINGLE_JOURNAL)
+      .setJournalName("assets")
+      .build()
+      .orderBy(foam.mlang.MLang.DESC(hughes.journal.Asset.CREATED));
+
+  """,
+  "client":"""
+    {
+      "of":"hughes.journal.Asset",
+      "cache":false,
+      "decorators":
+        [
+          {"class":"foam.nanos.fs.FileDAODecorator"},
+          {"class":"foam.nanos.fs.FileArrayDAODecorator"}
+        ]
     }
   """
 })
