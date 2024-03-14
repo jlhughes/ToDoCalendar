@@ -26,6 +26,7 @@ foam.CLASS({
 
   searchColumns: [
     'id',
+    'owner',
     'name',
     'code',
     'number',
@@ -33,6 +34,7 @@ foam.CLASS({
   ],
 
   tableColumns: [
+    'owner',
     'name',
     'code',
     'number',
@@ -48,7 +50,11 @@ foam.CLASS({
     },
     {
       name: 'name',
-      class: 'String'
+      class: 'String',
+      factory: function() { return this.code; },
+      javaFactory: 'return getCode();',
+      createVisibility: 'HIDDEN',
+      updateVisibility: 'RW'
     },
     {
       name: 'owner',
@@ -66,8 +72,9 @@ foam.CLASS({
       name: 'code',
       class: 'Reference',
       of: 'hughes.ledger.AccountCode',
+      value: 'Cash',
       // TODO: support changing category - this will affect balance
-      updateVisibility: 'RO',
+      // updateVisibility: 'RO',
     },
     {
       name: 'number',
@@ -80,21 +87,9 @@ foam.CLASS({
       createVisibility: 'HIDDEN',
       updateVisibility: 'RO',
       javaGetter: `
-        return (Long) findBalance(getX()); // foam.core.XLocator.get());
+        return findBalance(getX());
       `,
       storageTransient: true,
-      // tableCellFormatter: function(value, obj) {
-      //   var self = this;
-      //   obj.balanceDAO.find(obj.id).then(function(b) {
-      //     obj.currencyDAO.find(obj.currency).then(function(c) {
-      //       if ( c ) {
-      //         self.add(c.format(b.balance));
-      //       } else {
-      //         self.add(b.balance);
-      //       }
-      //     });
-      //   });
-      // }
     },
     {
       class: 'UnitValue',
@@ -104,7 +99,7 @@ foam.CLASS({
       updateVisibility: 'RO',
       // TODO: don't clone or freeze
       javaGetter: `
-        return findTotal(getX()); // foam.core.XLocator.get());
+        return findTotal(getX());
       `,
       storageTransient: true
     },
@@ -114,7 +109,9 @@ foam.CLASS({
       of: 'foam.core.Unit',
       targetDAOKey: 'currencyDAO',
       value: 'CAD',
-      // visibility: 'HIDDEN'
+      createVisibility: 'RW',
+      updateVisibility: 'RW',
+      readVisibility: 'HIDDEN'
     }
   ],
 
@@ -140,24 +137,24 @@ foam.CLASS({
       code: async function() {
         var summary = this.name;
         if ( this.number ) {
-          summary += " " + this.mask(this.number);
+          summary += " - " + this.mask(this.number);
         }
         var user = await this.owner$find;
         if ( user ) {
-          summary += " " + user.toSummary();
+          summary += " - " + user.toSummary();
         }
         return summary;
       },
       javaCode: `
       StringBuilder sb = new StringBuilder();
       sb.append(getName());
-      if ( ! SafetyUtil.isEmpty(getNumber()) ) {
-        sb.append(" ");
+       if ( ! SafetyUtil.isEmpty(getNumber()) ) {
+        sb.append(" - ");
         sb.append(mask(getNumber()));
       }
       foam.nanos.auth.User user = findOwner(getX());
       if ( user != null ) {
-        sb.append(" ");
+        sb.append(" - ");
         sb.append(user.toSummary());
       }
       return sb.toString();

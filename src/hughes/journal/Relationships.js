@@ -4,11 +4,7 @@ foam.RELATIONSHIP({
   forwardName: 'children',
   inverseName: 'parent',
   cardinality: '1:*',
-  // sourceProperty: {
-  //   section: 'parentInformation'
-  // },
   targetProperty: {
-  //   section: 'parentInformation',
     label: 'Parent',
     view: { class: 'foam.u2.view.ReferenceView', placeholder: '--' }
   }
