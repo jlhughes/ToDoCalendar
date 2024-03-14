@@ -16,14 +16,18 @@ foam.CLASS({
 
   tableColumns: [
     'id',
-    'account',
+    'debitAccount',
+    'creditAccount',
     'amount',
-    'direction'
+    'created'
   ],
 
   searchColumns: [
     'id',
-    'amount'
+    'debitAccount',
+    'creditAccount',
+    'amount',
+    'created'
   ],
 
   properties: [
@@ -45,9 +49,10 @@ foam.CLASS({
       }
     },
     {
-      name: 'account',
+      name: 'debitAccount',
       class: 'Reference',
       of: 'hughes.ledger.Account',
+      label: 'Debit',
       createVisibility: 'RW',
       updateVisibility: function(id) {
         if ( ! id ) {
@@ -60,7 +65,30 @@ foam.CLASS({
       },
       tableCellFormatter: function(val, obj) {
         var self = this;
-        obj.accountDAO.find(obj.account).then(function(a) {
+        obj.accountDAO.find(obj.debitAccount).then(function(a) {
+          self.add(a.toSummary());
+        });
+      },
+      gridColumns: 2
+    },
+    {
+      name: 'creditAccount',
+      class: 'Reference',
+      of: 'hughes.ledger.Account',
+      label: 'Credit',
+      createVisibility: 'RW',
+      updateVisibility: function(id) {
+        if ( ! id ) {
+          return foam.u2.DisplayMode.RW;
+        }
+        return foam.u2.DisplayMode.RO;
+      },
+      readVisibility: function() {
+        return foam.u2.DisplayMode.RO;
+      },
+      tableCellFormatter: function(val, obj) {
+        var self = this;
+        obj.accountDAO.find(obj.creditAccount).then(function(a) {
           self.add(a.toSummary());
         });
       },
@@ -70,30 +98,30 @@ foam.CLASS({
       name: 'amount',
       class: 'Long',
       // validation - ! zero,
-      createVisibility: function(account) {
-        if ( account ) {
+      createVisibility: function(debitAccount) {
+        if ( debitAccount ) {
           return foam.u2.DisplayMode.RW;
         }
         return foam.u2.DisplayMode.HIDDEN;
       },
-      updateVisibility: function(id, account) {
+      updateVisibility: function(id, debitAccount) {
         if ( id ) {
           return foam.u2.DisplayMode.RO;
         }
-        if ( account ) {
+        if ( debitAccount ) {
           return foam.u2.DisplayMode.RW;
         }
         return foam.u2.DisplayMode.HIDDEN;
       },
-      readVisibility: function(account) {
-        if ( account ) {
+      readVisibility: function(debitAccount) {
+        if ( debitAccount ) {
           return foam.u2.DisplayMode.RO;
         }
         return foam.u2.DisplayMode.HIDDEN;
       },
       tableCellFormatter: function(value, obj) {
         var self = this;
-        obj.accountDAO.find(obj.account).then(function(a) {
+        obj.accountDAO.find(obj.debitAccount).then(function(a) {
           obj.currencyDAO.find(a.currency).then(function(c) {
             if ( c ) {
               self.add(c.format(value));
@@ -102,34 +130,6 @@ foam.CLASS({
             }
           });
         });
-      },
-      gridColumns: 2
-    },
-    {
-      name: 'direction',
-      class: 'Enum',
-      of: 'hughes.ledger.Direction',
-      value: 'CREDIT',
-      createVisibility: function(account) {
-        if ( account ) {
-          return foam.u2.DisplayMode.RW;
-        }
-        return foam.u2.DisplayMode.HIDDEN;
-      },
-      updateVisibility: function(id, account) {
-        if ( id ) {
-          return foam.u2.DisplayMode.RO;
-        }
-        if ( account ) {
-          return foam.u2.DisplayMode.RW;
-        }
-        return foam.u2.DisplayMode.HIDDEN;
-      },
-      readVisibility: function(account) {
-        if ( account ) {
-          return foam.u2.DisplayMode.RO;
-        }
-        return foam.u2.DisplayMode.HIDDEN;
       },
       gridColumns: 2
     },
@@ -188,9 +188,12 @@ foam.CLASS({
       name: 'toSummary',
       type: 'String',
       code: async function() {
-        var account = await this.account$find;
-        var currency = await account.currency$find;
-        return account.toSummary() + " " + (currency ? currency.format(this.amount) : this.amount) + " " + this.direction;
+        var debitAccount = await this.debitAccount$find;
+        var debtor = await debitAccount.owner$find;
+        var creditAccount = await this.creditAccount$find;
+        var creditor = await creditAccount.owner$find;
+        var currency = await debitAccount.currency$find;
+        return debtor.firstName + " -> " + this.creditor.firstName + " " + (currency ? currency.format(this.amount) : this.amount);
       }
     }
   ]

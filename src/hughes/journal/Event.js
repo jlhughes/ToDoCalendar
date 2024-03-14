@@ -110,7 +110,6 @@ categories
       order: 1,
       gridColumns: 4
     },
-    // additional categories
     {
       name: 'status',
       class: 'Enum',
@@ -120,11 +119,11 @@ categories
       gridColumns: 4
     },
     {
-      documentation: 'Other user access to this Event',
+      documentation: 'Other user access to this Event. Public - all, Private - owner and who, protected - all or owner and who if who set',
       name: 'access',
       class: 'Enum',
       of: 'hughes.journal.AccessLevel',
-      value: 'PRIVATE',
+      value: 'PROTECTED',
       order: 3,
       gridColumns: 4
     },
@@ -183,14 +182,14 @@ categories
       gridColumns: 6
     },
     {
-      name: 'transaction',
-      class: 'FObjectProperty',
+      name: 'transactions',
+      class: 'FObjectArray',
       of: 'hughes.ledger.Transaction',
       label: 'Ledger',
       createVisibility: 'RW',
-      updateVisibility: function(transaction) {
-        if ( transaction ) {
-          if ( ! transaction.id ) {
+      updateVisibility: function(transactions) {
+        if ( transactions && transactions.length > 0 ) {
+          if ( ! transactions[0].id ) {
             return foam.u2.DisplayMode.RW;
           } else {
             return foam.u2.DisplayMode.RO;
@@ -198,18 +197,18 @@ categories
         }
         return foam.u2.DisplayMode.HIDDEN;
       },
-      readVisibility: function(transaction) {
-        if ( transaction ) {
+      readVisibility: function(transactions) {
+        if ( transactions && transactions.length > 0 ) {
           return foam.u2.DisplayMode.RO;
         }
         return foam.u2.DisplayMode.HIDDEN;
       },
+      // TODO: Summary transaction view
       // view: function(_, X) {
       //   if ( X.data.transaction && X.data.transaction.id ) {
       //     return foam.u2.view.StringView.create({data: X.data.transaction.toSummary()});
       //   }
-      // TODO: decorate accountDAO by 'who'
-      //   return foam.u2.view.FObjectPropertyView.create({of: X.data.TRANSACTION.of, data: X.data.transaction || hughes.ledger.Transaction.create()});
+      //   return foam.u2.view.FObjectArrayView.create({of: X.data.TRANSACTION.of, data: X.data.transactions});
       // },
       order: 9,
       gridColumns: 6
@@ -277,15 +276,17 @@ categories
       javaThrows: ['AuthorizationException'],
       javaCode: `
         if ( this.getAccess() == AccessLevel.PUBLIC ) return;
-        // TODO: protected
-
         AuthService auth = (AuthService) x.get("auth");
         Subject subject = (Subject) x.get("subject");
         User user = subject.getRealUser();
-        if ( user.getId() != this.getCreatedBy() &&
-             user.getId() != this.getWho() &&
-             ! auth.check(x, "event.read." + this.getId()) ) {
-          throw new AuthorizationException();
+        if ( this.getAccess() == AccessLevel.PRIVATE ||
+             ( this.getAccess() == AccessLevel.PROTECTED  &&
+               this.getWho() != null ) ) {
+          if ( user.getId() != this.getCreatedBy() &&
+               user.getId() != this.getWho() &&
+               ! auth.check(x, "event.read." + this.getId()) ) {
+            throw new AuthorizationException();
+          }
         }
       `
     },
