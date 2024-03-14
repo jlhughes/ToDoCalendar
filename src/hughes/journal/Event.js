@@ -281,7 +281,7 @@ categories
         User user = subject.getRealUser();
         if ( this.getAccess() == AccessLevel.PRIVATE ||
              ( this.getAccess() == AccessLevel.PROTECTED  &&
-               this.getWho() != null ) ) {
+               this.getWho() > 0 ) ) {
           if ( user.getId() != this.getCreatedBy() &&
                user.getId() != this.getWho() &&
                ! auth.check(x, "event.read." + this.getId()) ) {
