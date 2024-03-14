@@ -34,3 +34,9 @@ p({
   code: "Cash",
   owner: 112800915
 })
+p({
+  class: "hughes.ledger.Account",
+  id: "6e3ca4376436ded",
+  code: "Cash",
+  owner: 42855379
+})

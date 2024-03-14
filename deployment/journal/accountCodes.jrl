@@ -1,16 +1,12 @@
 p({
   class: "hughes.ledger.AccountCode",
-  id: "cash"
+  id: "Cash"
 })
 p({
   class: "hughes.ledger.AccountCode",
-  id: "asset"
+  id: "Capital"
 })
 p({
   class: "hughes.ledger.AccountCode",
-  id: "capital"
-})
-p({
-  class: "hughes.ledger.AccountCode",
-  id: "expense"
+  id: "Expense"
 })

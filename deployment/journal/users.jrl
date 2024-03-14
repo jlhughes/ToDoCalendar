@@ -110,3 +110,19 @@ p({
   "loginEnabled":true,
   "password":"yg2XT+KZBJk=:BljmCGq/fGkvm1POBiEJdzrMn2oEQSqsLK3OHKwvGmnaf99FrlJ7HZPtzeaXus2kHHyRUZU8iOHD8y5tB/AkWg=="
 })
+p({
+  "class":"foam.nanos.auth.User",
+  "id": 42855379,
+  "spid":"foam",
+  "userName":"carol",
+  "firstName":"Carol",
+  "lastName":"H",
+  "email":"carol@test.com",
+  "emailVerified":true,
+  "status":2,
+  "compliance":1,
+  "group": "journal",
+  "lifecycleState":1,
+  "loginEnabled":true,
+  "password":"yg2XT+KZBJk=:BljmCGq/fGkvm1POBiEJdzrMn2oEQSqsLK3OHKwvGmnaf99FrlJ7HZPtzeaXus2kHHyRUZU8iOHD8y5tB/AkWg=="
+})

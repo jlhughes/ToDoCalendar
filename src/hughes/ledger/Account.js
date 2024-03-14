@@ -87,7 +87,7 @@ foam.CLASS({
       createVisibility: 'HIDDEN',
       updateVisibility: 'RO',
       javaGetter: `
-        return findBalance(getX());
+        return findBalance(foam.core.XLocator.get());
       `,
       storageTransient: true,
     },
@@ -99,7 +99,7 @@ foam.CLASS({
       updateVisibility: 'RO',
       // TODO: don't clone or freeze
       javaGetter: `
-        return findTotal(getX());
+        return findTotal(foam.core.XLocator.get());
       `,
       storageTransient: true
     },
