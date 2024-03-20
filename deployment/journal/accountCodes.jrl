@@ -4,9 +4,5 @@ p({
 })
 p({
   class: "hughes.ledger.AccountCode",
-  id: "Capital"
-})
-p({
-  class: "hughes.ledger.AccountCode",
-  id: "Expense"
+  id: "Credit"
 })
