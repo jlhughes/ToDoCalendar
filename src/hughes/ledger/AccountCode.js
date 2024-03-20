@@ -12,7 +12,7 @@ foam.CLASS({
     {
       name: 'id',
       class: 'String',
-      createVisibility: 'HIDDEN',
+      createVisibility: 'RW',
       updateVisibility: 'RO'
     },
     // {
