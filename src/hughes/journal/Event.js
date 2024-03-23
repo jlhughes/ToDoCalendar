@@ -123,7 +123,7 @@ categories
       name: 'access',
       class: 'Enum',
       of: 'hughes.journal.AccessLevel',
-      value: 'PROTECTED',
+      value: 'PUBLIC',
       order: 3,
       gridColumns: 4
     },
