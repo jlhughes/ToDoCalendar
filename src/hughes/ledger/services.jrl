@@ -20,6 +20,24 @@ p({
 })
 p({
   "class":"foam.nanos.boot.NSpec",
+  "name":"accountTableViewDAO",
+  "lazy":false,
+  "serve":true,
+  "serviceScript":"""
+    return new foam.dao.EasyDAO.Builder(x)
+      .setOf(hughes.ledger.Account.getOwnClassInfo())
+      .setInnerDAO(x.get("accountDAO"))
+      .setDecorator(new hughes.ledger.AccountTableViewDAO(x, new foam.dao.NullDAO(x, hughes.ledger.Account.getOwnClassInfo())))
+      .build()
+  """,
+  "client":"""
+    {
+      "of":"hughes.ledger.Account"
+    }
+  """
+})
+p({
+  "class":"foam.nanos.boot.NSpec",
   "name":"balanceDAO",
   "serve":true,
   "authenticate": true,

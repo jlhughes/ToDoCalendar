@@ -7,6 +7,8 @@ foam.POM({
       flags: 'js|java' },
     { name: 'AccountCode',
       flags: 'js|java' },
+    { name: 'AccountTableViewDAO',
+      flags: 'js|java' },
     { name: 'Balance',
       flags: 'js|java' },
     { name: 'Direction',
