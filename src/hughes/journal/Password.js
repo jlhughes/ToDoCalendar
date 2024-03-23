@@ -5,6 +5,7 @@ foam.CLASS({
   documentation: ``,
 
   implements: [
+    'foam.nanos.auth.Authorizable',
     'foam.nanos.auth.CreatedAware',
     'foam.nanos.auth.CreatedByAware',
     'foam.nanos.auth.LastModifiedAware',
@@ -16,7 +17,11 @@ foam.CLASS({
   ],
 
   javaImports: [
-    'foam.core.X'
+    'foam.core.X',
+    'foam.nanos.auth.AuthorizationException',
+    'foam.nanos.auth.AuthService',
+    'foam.nanos.auth.Subject',
+    'foam.nanos.auth.User',
   ],
 
   tableColumns: [
@@ -131,5 +136,62 @@ foam.CLASS({
 //      order: 10,
       gridColumns: 6,
     }
+  ],
+
+  methods: [
+    {
+      name: 'authorizeOnCreate',
+      args: 'X x',
+      javaThrows: ['AuthorizationException'],
+      javaCode: `
+        // nop - anyone can create
+      `
+    },
+    {
+      name: 'authorizeOnRead',
+      args: 'X x',
+      javaThrows: ['AuthorizationException'],
+      javaCode: `
+        AuthService auth = (AuthService) x.get("auth");
+        Subject subject = (Subject) x.get("subject");
+        User user = subject.getRealUser();
+        if ( user.getId() != this.getCreatedBy() &&
+             user.getId() != this.getOwner() &&
+             ! auth.check(x, "password.read." + this.getId()) ) {
+          throw new AuthorizationException();
+        }
+      `
+    },
+    {
+      name: 'authorizeOnUpdate',
+      args: 'X x',
+      javaThrows: ['AuthorizationException'],
+      javaCode: `
+        AuthService auth = (AuthService) x.get("auth");
+        Subject subject = (Subject) x.get("subject");
+        User user = subject.getRealUser();
+        if ( user.getId() != this.getCreatedBy() &&
+             user.getId() != this.getOwner() &&
+             ! auth.check(x, "password.update." + this.getId()) ) {
+          throw new AuthorizationException();
+        }
+      `
+    },
+    {
+      name: 'authorizeOnDelete',
+      args: 'X x',
+      javaThrows: ['AuthorizationException'],
+      javaCode: `
+        AuthService auth = (AuthService) x.get("auth");
+        Subject subject = (Subject) x.get("subject");
+        User user = subject.getRealUser();
+        if ( user.getId() != this.getCreatedBy() &&
+             user.getId() != this.getOwner() &&
+             ! auth.check(x, "password.remove." + this.getId()) ) {
+          throw new AuthorizationException();
+        }
+      `
+    }
+
   ]
 });

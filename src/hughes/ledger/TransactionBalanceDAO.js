@@ -19,13 +19,13 @@ foam.CLASS({
       Transaction txn = (Transaction) getDelegate().put_(x, obj);
       Account debitAccount = (Account) ((DAO) x.get("accountDAO")).find_(x, txn.getDebitAccount());
       if ( debitAccount != null ) {
-        debitAccount.updateBalance(x, txn.getAmount(), Direction.DEBIT);
+        debitAccount.updateBalance(getX(), txn.getAmount(), Direction.DEBIT);
       } else {
         Loggers.logger(x, this).error("DebitAccount not found", txn.getDebitAccount());
       }
       Account creditAccount = (Account) ((DAO) x.get("accountDAO")).find_(x, txn.getCreditAccount());
       if ( creditAccount != null ) {
-        creditAccount.updateBalance(x, txn.getAmount(), Direction.CREDIT);
+        creditAccount.updateBalance(getX(), txn.getAmount(), Direction.CREDIT);
       } else {
         Loggers.logger(x, this).error("CreditAccount not found", txn.getCreditAccount());
       }
@@ -39,13 +39,13 @@ foam.CLASS({
       Transaction txn = (Transaction) getDelegate().find_(x, obj);
       Account debitAccount = (Account) ((DAO) x.get("accountDAO")).find_(x, txn.getDebitAccount());
       if ( debitAccount != null ) {
-        debitAccount.updateBalance(x, txn.getAmount(), Direction.CREDIT);
+        debitAccount.updateBalance(getX(), txn.getAmount(), Direction.CREDIT);
       } else {
         Loggers.logger(x, this).error("DebitAccount not found", txn.getDebitAccount());
       }
       Account creditAccount = (Account) ((DAO) x.get("accountDAO")).find_(x, txn.getCreditAccount());
       if ( creditAccount != null ) {
-        creditAccount.updateBalance(x, txn.getAmount(), Direction.DEBIT);
+        creditAccount.updateBalance(getX(), txn.getAmount(), Direction.DEBIT);
       } else {
         Loggers.logger(x, this).error("CreditAccount not found", txn.getCreditAccount());
       }

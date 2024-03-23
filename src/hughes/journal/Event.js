@@ -238,10 +238,7 @@ categories
       view: function(_, x) {
         return {
           class: 'foam.nanos.fs.fileDropZone.FileDropZone',
-          files$: x.data.attachments$,
-          supportedFormats: {
-            '*' : 'Any'
-          }
+          files$: x.data.attachments$
         };
       },
       order: 10,
