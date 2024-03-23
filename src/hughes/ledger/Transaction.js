@@ -2,8 +2,15 @@ foam.CLASS({
   package: 'hughes.ledger',
   name: 'Transaction',
 
-  // Transaction (s) will rebuild account balance.
-  // owner, account, category, amount, created
+  documentation: `
+Transactions rebuild account balance on replay.
+`,
+
+  // TODO:
+  // memo - build from event - summary
+  // attachments - act like expense input, or add event
+  // reconciliation? or on event?
+
   implements: [
     'foam.nanos.auth.CreatedAware',
     'foam.nanos.auth.CreatedByAware'
@@ -131,7 +138,7 @@ foam.CLASS({
           });
         });
       },
-      gridColumns: 2
+      gridColumns: 1
     },
     {
       name: 'created',

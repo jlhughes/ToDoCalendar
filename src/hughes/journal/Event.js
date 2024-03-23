@@ -195,7 +195,7 @@ categories
             return foam.u2.DisplayMode.RO;
           }
         }
-        return foam.u2.DisplayMode.HIDDEN;
+        return foam.u2.DisplayMode.RW;
       },
       readVisibility: function(transactions) {
         if ( transactions && transactions.length > 0 ) {
@@ -214,6 +214,7 @@ categories
       gridColumns: 6
     },
     {
+      // TODO: associate file with transaction.
       class: 'foam.nanos.fs.FileArray',
       name: 'attachments',
       tableCellFormatter: function(files) {

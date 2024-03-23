@@ -1,5 +1,10 @@
 p({"class":"foam.nanos.auth.GroupPermissionJunction","sourceId":"journal","targetId":"service.userDAO"})
+p({"class":"foam.nanos.auth.GroupPermissionJunction","sourceId":"journal","targetId":"user.read.*"})
 p({"class":"foam.nanos.auth.GroupPermissionJunction","sourceId":"journal","targetId":"service.groupDAO"})
+p({"class":"foam.nanos.auth.GroupPermissionJunction","sourceId":"journal","targetId":"group.read.*"})
+p({"class":"foam.nanos.auth.GroupPermissionJunction","sourceId":"journal","targetId":"user.readByGroup.journal"})
+p({"class":"foam.nanos.auth.GroupPermissionJunction","sourceId":"journal","targetId":"service.serviceProviderDAO"})
+p({"class":"foam.nanos.auth.GroupPermissionJunction","sourceId":"journal","targetId":"serviceprovider.read.foam"})
 p({"class":"foam.nanos.auth.GroupPermissionJunction","sourceId":"journal","targetId":"service.myNotificationDAO"})
 p({"class":"foam.nanos.auth.GroupPermissionJunction","sourceId":"journal","targetId":"service.prerequisiteCapabilityJunctionDAO"})
 
@@ -32,6 +37,37 @@ p({class:"foam.nanos.auth.GroupPermissionJunction","sourceId":"journal","targetI
 p({class:"foam.nanos.auth.GroupPermissionJunction","sourceId":"journal","targetId":"service.timeZoneDAO"})
 
 p({"class":"foam.nanos.auth.GroupPermissionJunction","sourceId":"journal","targetId":"service.eventDAO"})
+p({"class":"foam.nanos.auth.GroupPermissionJunction","sourceId":"journal","targetId":"event.create"})
 p({"class":"foam.nanos.auth.GroupPermissionJunction","sourceId":"journal","targetId":"menu.read.event"})
-p({"class":"foam.nanos.auth.GroupPermissionJunction","sourceId":"journal","targetId":"service.eventCatetoryDAO"})
-p({"class":"foam.nanos.auth.GroupPermissionJunction","sourceId":"journal","targetId":"menu.read.eventCatetory"})
+
+p({"class":"foam.nanos.auth.GroupPermissionJunction","sourceId":"journal","targetId":"menu.read.journalAdmin"})
+
+p({"class":"foam.nanos.auth.GroupPermissionJunction","sourceId":"journal","targetId":"service.eventCategoryDAO"})
+p({"class":"foam.nanos.auth.GroupPermissionJunction","sourceId":"journal","targetId":"menu.read.eventCategory"})
+p({"class":"foam.nanos.auth.GroupPermissionJunction","sourceId":"journal","targetId":"eventcategory.read.*"})
+
+p({class:"foam.nanos.auth.GroupPermissionJunction", sourceId:"journal", targetId:"service.fileDAO"})
+p({"class":"foam.nanos.auth.GroupPermissionJunction","sourceId":"journal","targetId":"file.create"})
+
+p({"class":"foam.nanos.auth.GroupPermissionJunction","sourceId":"journal","targetId":"service.transactionDAO"})
+p({"class":"foam.nanos.auth.GroupPermissionJunction","sourceId":"journal","targetId":"menu.read.transaction"})
+p({"class":"foam.nanos.auth.GroupPermissionJunction","sourceId":"journal","targetId":"transaction.create"})
+p({"class":"foam.nanos.auth.GroupPermissionJunction","sourceId":"journal","targetId":"transaction.read.*"})
+
+p({"class":"foam.nanos.auth.GroupPermissionJunction","sourceId":"journal","targetId":"service.accountCodeDAO"})
+p({"class":"foam.nanos.auth.GroupPermissionJunction","sourceId":"journal","targetId":"menu.read.accountCode"})
+p({"class":"foam.nanos.auth.GroupPermissionJunction","sourceId":"journal","targetId":"accountcode.read.*"})
+
+p({"class":"foam.nanos.auth.GroupPermissionJunction","sourceId":"journal","targetId":"service.accountDAO"})
+p({"class":"foam.nanos.auth.GroupPermissionJunction","sourceId":"journal","targetId":"menu.read.account"})
+p({"class":"foam.nanos.auth.GroupPermissionJunction","sourceId":"journal","targetId":"account.read.*"})
+
+p({"class":"foam.nanos.auth.GroupPermissionJunction","sourceId":"journal","targetId":"service.passwordDAO"})
+p({"class":"foam.nanos.auth.GroupPermissionJunction","sourceId":"journal","targetId":"menu.read.password"})
+p({"class":"foam.nanos.auth.GroupPermissionJunction","sourceId":"journal","targetId":"password.create"})
+
+p({"class":"foam.nanos.auth.GroupPermissionJunction","sourceId":"journal","targetId":"service.assetDAO"})
+p({"class":"foam.nanos.auth.GroupPermissionJunction","sourceId":"journal","targetId":"menu.read.asset"})
+p({"class":"foam.nanos.auth.GroupPermissionJunction","sourceId":"journal","targetId":"asset.create"})
+p({"class":"foam.nanos.auth.GroupPermissionJunction","sourceId":"journal","targetId":"asset.read.*"})
+p({"class":"foam.nanos.auth.GroupPermissionJunction","sourceId":"journal","targetId":"asset.update.*"})
