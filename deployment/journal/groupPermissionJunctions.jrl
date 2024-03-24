@@ -64,6 +64,8 @@ p({"class":"foam.nanos.auth.GroupPermissionJunction","sourceId":"journal","targe
 p({"class":"foam.nanos.auth.GroupPermissionJunction","sourceId":"journal","targetId":"service.accountTableViewDAO"})
 p({"class":"foam.nanos.auth.GroupPermissionJunction","sourceId":"journal","targetId":"menu.read.account"})
 p({"class":"foam.nanos.auth.GroupPermissionJunction","sourceId":"journal","targetId":"account.read.*"})
+p({"class":"foam.nanos.auth.GroupPermissionJunction","sourceId":"journal","targetId":"account.create"})
+p({"class":"foam.nanos.auth.GroupPermissionJunction","sourceId":"journal","targetId":"account.update.*"})
 p({"class":"foam.nanos.auth.GroupPermissionJunction","sourceId":"journal","targetId":"service.balanceDAO"})
 p({"class":"foam.nanos.auth.GroupPermissionJunction","sourceId":"journal","targetId":"balance.read.*"})
 

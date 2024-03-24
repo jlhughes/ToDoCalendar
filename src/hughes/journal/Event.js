@@ -187,16 +187,22 @@ categories
       of: 'hughes.ledger.Transaction',
       label: 'Ledger',
       createVisibility: 'RW',
-      updateVisibility: function(transactions) {
-        if ( transactions && transactions.length > 0 ) {
-          if ( ! transactions[0].id ) {
-            return foam.u2.DisplayMode.RW;
-          } else {
-            return foam.u2.DisplayMode.RO;
-          }
+      updateVisibility: function(status) {
+        if ( status == this.Status.OPEN ) {
+          return foam.u2.DisplayMode.RW;
         }
-        return foam.u2.DisplayMode.RW;
-      },
+        return foam.u2.DisplayMode.RO;
+      }
+      // updateVisibility: function(transactions) {
+      //   if ( transactions && transactions.length > 0 ) {
+      //     if ( ! transactions[0].id ) {
+      //       return foam.u2.DisplayMode.RW;
+      //     } else {
+      //       return foam.u2.DisplayMode.RO;
+      //     }
+      //   }
+      //   return foam.u2.DisplayMode.RW;
+      // },
       readVisibility: function(transactions) {
         if ( transactions && transactions.length > 0 ) {
           return foam.u2.DisplayMode.RO;
@@ -238,7 +244,7 @@ categories
       view: function(_, x) {
         return {
           class: 'foam.nanos.fs.fileDropZone.FileDropZone',
-          files$: x.data.attachments$
+          files$: x.data?.attachments$
         };
       },
       order: 10,
