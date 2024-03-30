@@ -192,35 +192,17 @@ categories
           return foam.u2.DisplayMode.RW;
         }
         return foam.u2.DisplayMode.RO;
-      }
-      // updateVisibility: function(transactions) {
-      //   if ( transactions && transactions.length > 0 ) {
-      //     if ( ! transactions[0].id ) {
-      //       return foam.u2.DisplayMode.RW;
-      //     } else {
-      //       return foam.u2.DisplayMode.RO;
-      //     }
-      //   }
-      //   return foam.u2.DisplayMode.RW;
-      // },
+      },
       readVisibility: function(transactions) {
         if ( transactions && transactions.length > 0 ) {
           return foam.u2.DisplayMode.RO;
         }
         return foam.u2.DisplayMode.HIDDEN;
       },
-      // TODO: Summary transaction view
-      // view: function(_, X) {
-      //   if ( X.data.transaction && X.data.transaction.id ) {
-      //     return foam.u2.view.StringView.create({data: X.data.transaction.toSummary()});
-      //   }
-      //   return foam.u2.view.FObjectArrayView.create({of: X.data.TRANSACTION.of, data: X.data.transactions});
-      // },
       order: 9,
       gridColumns: 6
     },
     {
-      // TODO: associate file with transaction.
       class: 'foam.nanos.fs.FileArray',
       name: 'attachments',
       tableCellFormatter: function(files) {
