@@ -25,7 +25,7 @@ Transactions rebuild account balance on replay.
     'id',
     'debitAccount',
     'creditAccount',
-    'amount',
+    'total',
     'created'
   ],
 
@@ -33,7 +33,7 @@ Transactions rebuild account balance on replay.
     'id',
     'debitAccount',
     'creditAccount',
-    'amount',
+    'total',
     'created'
   ],
 
@@ -76,7 +76,7 @@ Transactions rebuild account balance on replay.
           self.add(a.toSummary());
         });
       },
-      gridColumns: 2
+      gridColumns: 3
     },
     {
       name: 'creditAccount',
@@ -99,11 +99,13 @@ Transactions rebuild account balance on replay.
           self.add(a.toSummary());
         });
       },
-      gridColumns: 2
+      gridColumns: 3
     },
     {
       name: 'amount',
-      class: 'Long',
+      class: 'UnitValue',
+      unitPropName: 'denomination',
+      min: 0,
       // validation - ! zero,
       createVisibility: function(debitAccount) {
         if ( debitAccount ) {
@@ -138,7 +140,118 @@ Transactions rebuild account balance on replay.
           });
         });
       },
-      gridColumns: 1
+      gridColumns: 2,
+      unitPropValueToString: async function(x, val) {
+        let a = await this.accountDAO.find(this.debitAccount);
+        let c = await this.currencyDAO.find(a.currency);
+        return c.format(val);
+      }
+    },
+    {
+      name: 'tax',
+      class: 'UnitValue',
+      unitPropName: 'denomination',
+      min: 0,
+      createVisibility: function(amount) {
+        if ( amount ) {
+          return foam.u2.DisplayMode.RW;
+        }
+        return foam.u2.DisplayMode.HIDDEN;
+      },
+      updateVisibility: function(id, amount) {
+        if ( id ) {
+          return foam.u2.DisplayMode.RO;
+        }
+        if ( amount ) {
+          return foam.u2.DisplayMode.RW;
+        }
+        return foam.u2.DisplayMode.HIDDEN;
+      },
+      readVisibility: function(tax) {
+        if ( tax ) {
+          return foam.u2.DisplayMode.RO;
+        }
+        return foam.u2.DisplayMode.HIDDEN;
+      },
+      tableCellFormatter: function(value, obj) {
+        var self = this;
+        obj.accountDAO.find(obj.debitAccount).then(function(a) {
+          obj.currencyDAO.find(a.currency).then(function(c) {
+            if ( c ) {
+              self.add(c.format(value));
+            } else {
+              self.add(value);
+            }
+          });
+        });
+      },
+      gridColumns: 2,
+      unitPropValueToString: async function(x, val) {
+        let a = await this.accountDAO.find(this.debitAccount);
+        let c = await this.currencyDAO.find(a.currency);
+        return c.format(val);
+      }
+    },
+    {
+      name: 'total',
+      class: 'UnitValue',
+      unitPropName: 'denomination',
+      storageTransient: true,
+      expression: function(amount, tax) {
+        return amount + tax;
+      },
+      javaGetter: 'return this.getAmount() + this.getTax();',
+      createVisibility: function(tax) {
+        if ( tax ) {
+          return foam.u2.DisplayMode.RO;
+        }
+        return foam.u2.DisplayMode.HIDDEN;
+      },
+      updateVisibility: function(tax) {
+        if ( tax ) {
+          return foam.u2.DisplayMode.RO;
+        }
+        return foam.u2.DisplayMode.HIDDEN;
+      },
+      readVisibility: function(tax) {
+        if ( tax ) {
+          return foam.u2.DisplayMode.RO;
+        }
+        return foam.u2.DisplayMode.HIDDEN;
+      },
+      tableCellFormatter: function(value, obj) {
+        var self = this;
+        obj.accountDAO.find(obj.debitAccount).then(function(a) {
+          obj.currencyDAO.find(a.currency).then(function(c) {
+            if ( c ) {
+              self.add(c.format(value));
+            } else {
+              self.add(value);
+            }
+          });
+        });
+      },
+      gridColumns: 2,
+      unitPropValueToString: async function(x, val) {
+        let a = await this.accountDAO.find(this.debitAccount);
+        let c = await this.currencyDAO.find(a.currency);
+        return c.format(val);
+      }
+    },
+    {
+      name: 'denomination',
+      class: 'String',
+      visibility: 'HIDDEN',
+      transient: true,
+      // factory: async function(x, val) {
+      //   if ( this.debitAccount ) {
+      //     let a = await this.accountDAO.find(this.debitAccount);
+      //     let c = await this.currencyDAO.find(a.currency);
+      //     return c.format(this.)
+
+      //   }
+      // },
+      // javaFactory: 'return "CAD";'
     },
     {
       name: 'created',
@@ -174,19 +287,7 @@ Transactions rebuild account balance on replay.
     },
     {
       name: 'createdByAgent',
-      createVisibility: 'HIDDEN',
-      updateVisibility: function(id) {
-        if ( ! id ) {
-          return foam.u2.DisplayMode.HIDDEN;
-        }
-        return foam.u2.DisplayMode.RO;
-      },
-      readVisibility: function(id) {
-        if ( ! id ) {
-          return foam.u2.DisplayMode.HIDDEN;
-        }
-        return foam.u2.DisplayMode.RO;
-      }
+      visibility: 'HIDDEN'
     }
   ],
 
@@ -203,5 +304,33 @@ Transactions rebuild account balance on replay.
         return debtor.firstName + " -> " + this.creditor.firstName + " " + (currency ? currency.format(this.amount) : this.amount);
       }
     }
-  ]
+  ],
+
+  // actions: [
+  //   {
+  //     name: 'viewEvent',
+  //     code: async function(X) {
+  //       var dao = X.eventDAO.where(
+  //         this.OR(
+  //           this.EQ(this.Transaction.DEBIT_ACCOUNT, X.data.id),
+  //           this.EQ(this.Transaction.CREDIT_ACCOUNT, X.data.id)
+  //         )
+  //       );
+  //       X.stack.push(this.StackBlock.create({
+  //         view: {
+  //           class: 'foam.comics.v2.DAOBrowseControllerView',
+  //           data: dao,
+  //           config: {
+  //             class: 'foam.comics.v2.DAOControllerConfig',
+  //             dao: dao,
+  //             createPredicate: foam.mlang.predicate.False,
+  //             editPredicate: foam.mlang.predicate.False,
+  //             deletePredicate: foam.mlang.predicate.False,
+  //             browseTitle: `${this.toSummary()} Event`
+  //           }
+  //         }
+  //       }));
+  //     }
+  //   }
+  // ]
 });
