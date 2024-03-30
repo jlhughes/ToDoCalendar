@@ -3,6 +3,7 @@ foam.CLASS({
   name: 'Account',
 
   implements: [
+    'foam.mlang.Expressions',
     'foam.nanos.auth.CreatedAware',
     'foam.nanos.auth.CreatedByAware',
     'foam.nanos.auth.LastModifiedAware',
@@ -10,9 +11,17 @@ foam.CLASS({
   ],
 
   imports: [
+    'auth',
     'balanceDAO',
     'currencyDAO?',
+    'stack?',
+    'transactionDAO',
     'userDAO'
+  ],
+
+  requires: [
+    'hughes.ledger.Transaction',
+    'foam.u2.stack.StackBlock',
   ],
 
   javaImports: [
@@ -112,6 +121,26 @@ foam.CLASS({
       createVisibility: 'RW',
       updateVisibility: 'RW',
       readVisibility: 'HIDDEN'
+    },
+    {
+      name: 'summary',
+      class: 'String',
+      visibility: 'HIDDEN',
+      storageTransient: true,
+      javaGetter: `
+      StringBuilder sb = new StringBuilder();
+      sb.append(getName());
+       if ( ! SafetyUtil.isEmpty(getNumber()) ) {
+        sb.append(" - ");
+        sb.append(mask(getNumber()));
+      }
+      foam.nanos.auth.User user = findOwner(getX());
+      if ( user != null ) {
+        sb.append(" - ");
+        sb.append(user.toSummary());
+      }
+      return sb.toString();
+      `
     }
   ],
 
@@ -209,6 +238,45 @@ foam.CLASS({
         bal = (Balance) ((DAO) x.get("balanceDAO")).put_(x, bal);
         return bal.getBalance();
       `
+    }
+  ],
+
+  actions: [
+    {
+      name: 'transactions',
+      isAvailable: async function() {
+        return this.id &&
+          await this.auth.check(null, 'transaction.read.*');
+      },
+      code: async function(X) {
+        // if ( X.memento ) {
+        //   X = X.createSubContext({memento: X.memento.tail});
+        // }
+        var dao = X.transactionDAO.where(
+          this.OR(
+            this.EQ(this.Transaction.DEBIT_ACCOUNT, X.data.id),
+            this.EQ(this.Transaction.CREDIT_ACCOUNT, X.data.id)
+          )
+        );
+        var browseTitle = await X.data.toSummary();
+        X.stack.push(
+          this.StackBlock.create({
+            parent: X,
+            view: {
+              class: 'foam.comics.v2.DAOBrowseControllerView',
+              data: dao,
+              config: {
+                class: 'foam.comics.v2.DAOControllerConfig',
+                dao: dao,
+                createPredicate: foam.mlang.predicate.False.create(),
+                editPredicate: foam.mlang.predicate.False.create(),
+                deletePredicate: foam.mlang.predicate.False.create(),
+                browseTitle: `${browseTitle} - Transactions`
+              }
+            }
+          })
+        );
+      }
     }
   ]
 })
