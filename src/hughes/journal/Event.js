@@ -285,6 +285,7 @@ categories
         Subject subject = (Subject) x.get("subject");
         User user = subject.getRealUser();
         if ( user.getId() != this.getCreatedBy() &&
+             user.getId() != this.getWho() &&
              ! auth.check(x, "event.update." + this.getId()) ) {
           throw new AuthorizationException();
         }
@@ -299,6 +300,7 @@ categories
         Subject subject = (Subject) x.get("subject");
         User user = subject.getRealUser();
         if ( user.getId() != this.getCreatedBy() &&
+             user.getId() != this.getWho() &&
              ! auth.check(x, "event.remove." + this.getId()) ) {
           throw new AuthorizationException();
         }
