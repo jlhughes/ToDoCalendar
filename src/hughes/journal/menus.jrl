@@ -14,7 +14,32 @@ p({
     "class": "foam.nanos.menu.DAOMenu2",
     "config": {
       "class": "foam.comics.v2.DAOControllerConfig",
-      "daoKey": "eventDAO"
+      "daoKey": "eventDAO",
+      "cannedQueries": [
+        {
+          "class": "foam.comics.v2.CannedQuery",
+          "label": "All",
+          "predicate": {
+            "class":"foam.mlang.predicate.True"
+          }
+        },
+        {
+          "class": "foam.comics.v2.CannedQuery",
+          "label": "Open",
+          "predicate": {
+            "class": "foam.mlang.predicate.FScriptPredicate",
+            "query": 'status==hughes.journal.Status.OPEN'
+          }
+        },
+        {
+          "class": "foam.comics.v2.CannedQuery",
+          "label": "Closed",
+          "predicate": {
+            "class": "foam.mlang.predicate.FScriptPredicate",
+            "query": 'status==hughes.journal.Status.CLOSED'
+          }
+        }
+      ]
     }
   }
 })
