@@ -173,7 +173,7 @@ categories
     },
     {
       name: 'why',
-      class: 'Code',
+      class: 'String',
       view: {
         class: 'foam.u2.tag.TextArea',
         rows: 4, cols: 60,
