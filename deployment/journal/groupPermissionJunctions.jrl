@@ -42,7 +42,7 @@ p({"class":"foam.nanos.auth.GroupPermissionJunction","sourceId":"journal","targe
 p({"class":"foam.nanos.auth.GroupPermissionJunction","sourceId":"journal","targetId":"event.create"})
 p({"class":"foam.nanos.auth.GroupPermissionJunction","sourceId":"journal","targetId":"menu.read.event"})
 
-p({"class":"foam.nanos.auth.GroupPermissionJunction","sourceId":"journal","targetId":"menu.read.journalAdmin"})
+// p({"class":"foam.nanos.auth.GroupPermissionJunction","sourceId":"journal","targetId":"menu.read.journalAdmin"})
 
 p({"class":"foam.nanos.auth.GroupPermissionJunction","sourceId":"journal","targetId":"service.eventCategoryDAO"})
 p({"class":"foam.nanos.auth.GroupPermissionJunction","sourceId":"journal","targetId":"menu.read.eventCategory"})
