@@ -17,8 +17,7 @@ foam.CLASS({
   ],
 
   requires: [
-    'hughes.journal.AccessLevel',
-
+    'hughes.journal.AccessLevel'
   ],
 
   javaImports: [
@@ -143,7 +142,6 @@ foam.CLASS({
           class: 'foam.nanos.fs.fileDropZone.FileDropZone',
           files$: x.data.attachments$,
           supportedFormats: {
-    'hughes.journal.AccessLevel',
             '*' : 'Any'
           }
         };
