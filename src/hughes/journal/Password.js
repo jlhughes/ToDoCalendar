@@ -16,6 +16,11 @@ foam.CLASS({
     'userDAO'
   ],
 
+  requires: [
+    'hughes.journal.AccessLevel',
+
+  ],
+
   javaImports: [
     'foam.core.X',
     'foam.nanos.auth.AuthorizationException',
@@ -44,7 +49,7 @@ foam.CLASS({
       class: 'String',
       createVisibility: 'HIDDEN',
       updateVisibility: 'RO',
-      gridColumns: 6
+      gridColumns: 4
     },
     {
       name: 'owner',
@@ -56,7 +61,16 @@ foam.CLASS({
           self.add(u.toSummary());
         });
       },
-      gridColumns: 6
+      gridColumns: 4
+    },
+    {
+      documentation: 'Other user access to this Event. Public - all, Private - owner and who, protected - all or owner and who if who set',
+      name: 'access',
+      class: 'Enum',
+      of: 'hughes.journal.AccessLevel',
+      value: 'PRIVATE',
+      order: 3,
+      gridColumns: 4
     },
     {
       name: 'description',
@@ -129,6 +143,7 @@ foam.CLASS({
           class: 'foam.nanos.fs.fileDropZone.FileDropZone',
           files$: x.data.attachments$,
           supportedFormats: {
+    'hughes.journal.AccessLevel',
             '*' : 'Any'
           }
         };
@@ -152,6 +167,7 @@ foam.CLASS({
       args: 'X x',
       javaThrows: ['AuthorizationException'],
       javaCode: `
+        if ( this.getAccess() == AccessLevel.PUBLIC ) return;
         AuthService auth = (AuthService) x.get("auth");
         Subject subject = (Subject) x.get("subject");
         User user = subject.getRealUser();
