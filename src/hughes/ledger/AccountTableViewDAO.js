@@ -30,6 +30,7 @@ foam.CLASS({
       if ( account != null ) {
         account = (Account) account.fclone();
         account.setBalance(account.findBalance(x));
+        account.setTotal(account.findTotal(x));
       }
       return account;
       `
@@ -43,6 +44,7 @@ foam.CLASS({
             public void put(Object obj, foam.core.Detachable sub) {
               Account account = (Account) ((FObject)obj).fclone();
               account.setBalance(account.findBalance(x));
+              account.setTotal(account.findTotal(x));
               super.put(account, sub);
             }
           };

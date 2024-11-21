@@ -70,12 +70,26 @@ foam.CLASS({
       class: 'Reference',
       of: 'foam.nanos.auth.User',
       required: true,
-      tableCellFormatter: function(value, obj) {
-        var self = this;
-        obj.userDAO.find(value).then(function(u) {
-          self.add(u.toSummary());
-        });
+      view: function(_, X) {
+        return {
+          class: 'foam.u2.view.RichChoiceView',
+          search: true,
+          sections: [
+            {
+              heading: 'Users',
+              dao: X.userDAO
+            }
+          ]
+        };
       },
+      tableCellFormatter: function(value, obj, axiom) {
+        this.__subSubContext__.userDAO
+          .find(value)
+          .then((user) => this.add(user.toSummary()))
+          .catch((error) => {
+            this.add(value);
+          });
+      }
     },
     {
       name: 'code',
@@ -95,9 +109,9 @@ foam.CLASS({
       name: 'balance',
       createVisibility: 'HIDDEN',
       updateVisibility: 'RO',
-      javaGetter: `
-        return findBalance(foam.core.XLocator.get());
-      `,
+      // javaGetter: `
+      //   return findBalance(foam.core.XLocator.get());
+      // `,
       storageTransient: true,
     },
     {
@@ -106,10 +120,10 @@ foam.CLASS({
       name: 'total',
       createVisibility: 'HIDDEN',
       updateVisibility: 'RO',
-      // TODO: don't clone or freeze
-      javaGetter: `
-        return findTotal(foam.core.XLocator.get());
-      `,
+      // // TODO: don't clone or freeze
+      // javaGetter: `
+      //   return findTotal(foam.core.XLocator.get());
+      // `,
       storageTransient: true
     },
     {
@@ -193,12 +207,6 @@ foam.CLASS({
       name: 'findBalance',
       type: 'Long',
       args: 'X x',
-      // code: async function(x) {
-      //   var bal = await x.balanceDAO?.find(this.id);
-      //   if ( bal != null )
-      //     return bal.balance;
-      //   return 0;
-      // },
       javaCode: `
         try {
           Balance bal = (Balance) ((DAO) x.get("balanceDAO")).find(getId());
