@@ -3,4 +3,5 @@ p({
   "id":"journal",
   "enabled":true,
   "description":"Main user group of journal users",
+  "parent":"basicUser"
 })
