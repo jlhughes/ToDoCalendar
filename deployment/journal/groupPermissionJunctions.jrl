@@ -2,6 +2,13 @@ p({class:"foam.nanos.auth.GroupPermissionJunction",sourceId:"anonymous",targetId
 
 p({class:"foam.nanos.auth.GroupPermissionJunction",sourceId:"journal",targetId:"user.readByGroup.journal"})
 
+// FOAM
+p({class:"foam.nanos.auth.GroupPermissionJunction",sourceId:"basicUser",targetId:"service.resetPasswordInsecureService"})
+p({class:"foam.nanos.auth.GroupPermissionJunction",sourceId:"basicUser",targetId:"service.userUpdatePasswordDAO"})
+r({class:"foam.nanos.auth.GroupPermissionJunction",sourceId:"basicUser",targetId:"menu.read.set-password"})
+p({class:"foam.nanos.auth.GroupPermissionJunction",sourceId:"basicUser",targetId:"menu.read.reset-password"})
+
+
 // Event
 p({class:"foam.nanos.auth.GroupPermissionJunction",sourceId:"journal",targetId:"service.eventDAO"})
 p({class:"foam.nanos.auth.GroupPermissionJunction",sourceId:"journal",targetId:"event.create"})
