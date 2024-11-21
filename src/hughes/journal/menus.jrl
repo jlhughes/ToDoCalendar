@@ -27,22 +27,54 @@ p({
           "class": "foam.comics.v2.CannedQuery",
           "label": "Open",
           "predicate": {
-            "class": "foam.mlang.predicate.FScriptPredicate",
-            "query": 'status==hughes.journal.Status.OPEN'
+            "class": "foam.mlang.predicate.Eq",
+            "arg1": {
+              "class": "__Property__",
+              "forClass_": "hughes.journal.Event",
+              "name": "status"
+            },
+            "arg2": {
+              "class": "foam.mlang.Constant",
+              "value": 0
+            }
           }
         },
         {
           "class": "foam.comics.v2.CannedQuery",
           "label": "Closed",
           "predicate": {
-            "class": "foam.mlang.predicate.FScriptPredicate",
-            "query": 'status==hughes.journal.Status.CLOSED'
+            "class": "foam.mlang.predicate.Eq",
+            "arg1": {
+              "class": "__Property__",
+              "forClass_": "hughes.journal.Event",
+              "name": "status"
+            },
+            "arg2": {
+              "class": "foam.mlang.Constant",
+              "value": 99
+            }
           }
         }
       ]
     }
   }
 })
+//         {
+//           "class": "foam.comics.v2.CannedQuery",
+//           "label": "Open",
+//           "predicate": {
+//             "class": "foam.mlang.predicate.FScriptPredicate",
+//             "query": 'status==hughes.journal.Status.OPEN'
+//           }
+//         },
+//         {
+//           "class": "foam.comics.v2.CannedQuery",
+//           "label": "Closed",
+//           "predicate": {
+//             "class": "foam.mlang.predicate.FScriptPredicate",
+//             "query": 'status==hughes.journal.Status.CLOSED'
+//           }
+//         }
 p({
   "class": "foam.nanos.menu.Menu",
   "id": "eventCategory",
