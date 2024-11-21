@@ -79,6 +79,7 @@ Transactions rebuild account balance on replay.
       gridColumns: 3
     },
     {
+      // TODO: need input fields to select user, then select accounts of user
       name: 'creditAccount',
       class: 'Reference',
       of: 'hughes.ledger.Account',
