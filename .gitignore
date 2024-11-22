@@ -3,3 +3,4 @@ build/
 pom.xml
 foam-bin-*
 .idea
+deployment/hughes

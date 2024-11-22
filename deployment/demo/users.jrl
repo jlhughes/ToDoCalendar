@@ -1,0 +1,49 @@
+// defautl password: demopassword
+p({
+  "class":"foam.nanos.auth.User",
+  "id": 79906623,
+  "spid":"foam",
+  "userName":"bob",
+  "firstName":"Bob",
+  "lastName":"B",
+  "email":"bob@test.com",
+  "emailVerified":true,
+  "status":2,
+  "compliance":1,
+  "group": "journal",
+  "lifecycleState":1,
+  "loginEnabled":true,
+  "password":"KXhxt4A92FU=:cBZUzMFSstyVdwVbIL1r6ZTFKLVz3DYZw/apfnrUmInWuenVoGrpYCFQu4ms1sNZblsR1v/AUgDZAV5/JS0Enw=="
+})
+p({
+  "class":"foam.nanos.auth.User",
+  "id": 97457147,
+  "spid":"foam",
+  "userName":"bill",
+  "firstName":"Bill",
+  "lastName":"B",
+  "email":"bill@test.com",
+  "emailVerified":true,
+  "status":2,
+  "compliance":1,
+  "group": "journal",
+  "lifecycleState":1,
+  "loginEnabled":true,
+  "password":"KXhxt4A92FU=:cBZUzMFSstyVdwVbIL1r6ZTFKLVz3DYZw/apfnrUmInWuenVoGrpYCFQu4ms1sNZblsR1v/AUgDZAV5/JS0Enw=="
+})
+p({
+  "class":"foam.nanos.auth.User",
+  "id": 115077047,
+  "spid":"foam",
+  "userName":"betty",
+  "firstName":"Betty",
+  "lastName":"B",
+  "email":"betty@test.com",
+  "emailVerified":true,
+  "status":2,
+  "compliance":1,
+  "group": "journal",
+  "lifecycleState":1,
+  "loginEnabled":true,
+  "password":"KXhxt4A92FU=:cBZUzMFSstyVdwVbIL1r6ZTFKLVz3DYZw/apfnrUmInWuenVoGrpYCFQu4ms1sNZblsR1v/AUgDZAV5/JS0Enw=="
+})
