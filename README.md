@@ -16,7 +16,13 @@ Checkout this repository
 
 `cd Journal`
 
+`npm install`
+
 `git clone git@github.com:kgrgreer/foam3.git`
+
+`cd foam3`
+
+`npm install`
 
 Presently `Journal` depends on a particular FOAM branch
 
