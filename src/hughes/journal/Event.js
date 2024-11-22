@@ -226,7 +226,12 @@ categories
       view: function(_, x) {
         return {
           class: 'foam.nanos.fs.fileDropZone.FileDropZone',
-          files$: x.data?.attachments$
+          files$: x.data?.attachments$,
+          maxSize: 1000,
+          supportedFormats: {
+            '':'ANY',
+            '*':'ANY'
+          }
         };
       },
       order: 10,

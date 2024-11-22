@@ -1,5 +1,3 @@
-p({class:"foam.nanos.auth.GroupPermissionJunction",sourceId:"anonymous",targetId:"serviceprovider.read.foam"})
-
 p({class:"foam.nanos.auth.GroupPermissionJunction",sourceId:"journal",targetId:"user.readByGroup.journal"})
 
 // FOAM
@@ -8,6 +6,8 @@ p({class:"foam.nanos.auth.GroupPermissionJunction",sourceId:"basicUser",targetId
 r({class:"foam.nanos.auth.GroupPermissionJunction",sourceId:"basicUser",targetId:"menu.read.set-password"})
 p({class:"foam.nanos.auth.GroupPermissionJunction",sourceId:"basicUser",targetId:"menu.read.reset-password"})
 
+// spid
+p({class:"foam.nanos.auth.GroupPermissionJunction",sourceId:"journal",targetId:"serviceprovider.read.foam"})
 
 // Event
 p({class:"foam.nanos.auth.GroupPermissionJunction",sourceId:"journal",targetId:"service.eventDAO"})

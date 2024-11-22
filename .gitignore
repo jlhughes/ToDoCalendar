@@ -1,3 +1,5 @@
 foam3/
 build/
 pom.xml
+foam-bin-*
+.idea
