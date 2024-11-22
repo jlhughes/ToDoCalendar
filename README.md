@@ -53,4 +53,4 @@ password: `demopassword`
 - Accounts - manage Cash or Credit Accounts and see balance modified by Ledger entries on Events.
 
 ## Other 
-Ledger entries on Events create double accounting Transactions which modify the balance of the two accounts involved. 
+Ledger entries on Events create double entry accounting Transactions which modify the balance of the two accounts involved. 
