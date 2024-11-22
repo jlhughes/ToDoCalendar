@@ -10,25 +10,24 @@ A collection of *Event*s
 * Parent/Child relationship - furnace purchase can have maintenance events
 
 ## Installing
-Checkout this repository
 
-`git clone git@github.com:jlhughes/Journal.git`
+1. `git clone git@github.com:jlhughes/Journal.git`
 
-`cd Journal`
+1. `cd Journal`
 
-`npm install`
+1. `npm install`
 
-`git clone git@github.com:kgrgreer/foam3.git`
+1. `git clone git@github.com:kgrgreer/foam3.git`
 
-`cd foam3`
+1. `cd foam3`
 
-`npm install`
+1. `npm install`
 
 Presently `Journal` depends on a particular FOAM branch
 
-`git fetch origin SignInSignUp`
+1. `git fetch origin SignInSignUp`
 
-`git checkout SignInSignUp`
+1. `git checkout SignInSignUp`
 
 ## Building and Running locally
 
@@ -38,7 +37,7 @@ From the root of the `Journal` repository:
 
 The website will be available at 
 
-`https://localhost:8100`
+`http://localhost:8100`
 
 Log in with one of three tests accounts
 
