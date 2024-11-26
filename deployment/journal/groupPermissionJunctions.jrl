@@ -1,10 +1,8 @@
 p({class:"foam.nanos.auth.GroupPermissionJunction",sourceId:"journal",targetId:"user.readByGroup.journal"})
 
 // FOAM
-p({class:"foam.nanos.auth.GroupPermissionJunction",sourceId:"basicUser",targetId:"service.resetPasswordInsecureService"})
-p({class:"foam.nanos.auth.GroupPermissionJunction",sourceId:"basicUser",targetId:"service.userUpdatePasswordDAO"})
-r({class:"foam.nanos.auth.GroupPermissionJunction",sourceId:"basicUser",targetId:"menu.read.set-password"})
-p({class:"foam.nanos.auth.GroupPermissionJunction",sourceId:"basicUser",targetId:"menu.read.reset-password"})
+// simple password management
+p({class:"foam.nanos.auth.GroupPermissionJunction",sourceId:"journal",targetId:"menu.read.reset-password"})
 
 // spid
 p({class:"foam.nanos.auth.GroupPermissionJunction",sourceId:"journal",targetId:"serviceprovider.read.foam"})
