@@ -11,6 +11,6 @@ foam.POM({
     { name: 'WEB_PORT', value: 8100 }
   ],
   setFlags: {
-    u3: true
+    u3: false
   },
 });
