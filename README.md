@@ -24,6 +24,7 @@ A collection of *Event*s
 1. `npm install`
 
 ## Building and Running locally
+### Build and deploy from live model files
 
 From the root of the `Journal` repository:
 
@@ -32,6 +33,24 @@ From the root of the `Journal` repository:
 The website will be available at 
 
 `http://localhost:8100`
+
+With this deployment style you can edit models (mostly) and then hard refresh the site to see the changes.
+
+### Build and deploy from a jar file
+
+From the root of the `Journal` repository:
+
+`./deployment/demo/run-u.sh -c`
+
+The website will be available at 
+
+`https://localhost:8100`
+
+With this deployment style and model changes require re-deployment.
+
+** NOTE: this deployment uses a self-sign certificate which your browser will warn you about **
+
+## Log In
 
 Log in with one of three tests accounts
 
