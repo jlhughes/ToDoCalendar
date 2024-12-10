@@ -23,12 +23,6 @@ A collection of *Event*s
 
 1. `npm install`
 
-Presently `Journal` depends on a particular FOAM branch
-
-1. `git fetch origin SignInSignUp`
-
-1. `git checkout SignInSignUp`
-
 ## Building and Running locally
 
 From the root of the `Journal` repository:
