@@ -48,7 +48,7 @@ The website will be available at
 
 With this deployment style and model changes require re-deployment.
 
-** NOTE: this deployment uses a self-sign certificate which your browser will warn you about **
+**NOTE: this deployment uses a self-sign certificate which your browser will warn you about**
 
 ## Log In
 
