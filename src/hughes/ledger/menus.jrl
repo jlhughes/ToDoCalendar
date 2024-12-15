@@ -18,12 +18,11 @@ p({
     "class": "foam.nanos.menu.DAOMenu2",
     "config": {
       "class": "foam.comics.v2.DAOControllerConfig",
-      "doaKey": "accountCodeDAO"
+      "daoKey": "accountCodeDAO"
     }
   },
   "parent": "journalAdmin"
 })
-
 p({
   "class": "foam.nanos.menu.Menu",
   "id": "transaction",
@@ -32,7 +31,7 @@ p({
     "class": "foam.nanos.menu.DAOMenu2",
     "config": {
       "class": "foam.comics.v2.DAOControllerConfig",
-      "doaKey": "transactionDAO",
+      "daoKey": "transactionDAO",
       "createPredicate":{"class":"foam.mlang.predicate.False"},
       "editPredicate":{"class":"foam.mlang.predicate.False"},
       "deletePredicate":{"class":"foam.mlang.predicate.False"}
