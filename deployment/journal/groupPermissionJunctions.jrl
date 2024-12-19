@@ -11,8 +11,7 @@ p({class:"foam.nanos.auth.GroupPermissionJunction",sourceId:"journal",targetId:"
 p({class:"foam.nanos.auth.GroupPermissionJunction",sourceId:"journal",targetId:"service.eventDAO"})
 p({class:"foam.nanos.auth.GroupPermissionJunction",sourceId:"journal",targetId:"event.create"})
 p({class:"foam.nanos.auth.GroupPermissionJunction",sourceId:"journal",targetId:"menu.read.event"})
-p({class:"foam.nanos.auth.GroupPermissionJunction",sourceId:"journal",targetId:"strategyreference.read.DaySchedule"})
-p({class:"foam.nanos.auth.GroupPermissionJunction",sourceId:"journal",targetId:"strategyreference.read.DaysSchedule"})
+p({class:"foam.nanos.auth.GroupPermissionJunction",sourceId:"journal",targetId:"strategyreference.read.CalendarSchedule"})
 p({class:"foam.nanos.auth.GroupPermissionJunction",sourceId:"journal",targetId:"service.timeZoneDAO"})
 
 // EventCategory
@@ -60,3 +59,4 @@ p({class:"foam.nanos.auth.GroupPermissionJunction",sourceId:"journal",targetId:"
 p({class:"foam.nanos.auth.GroupPermissionJunction",sourceId:"journal",targetId:"password.update.*"})
 
 // p({class:"foam.nanos.auth.GroupPermissionJunction",sourceId:"journal",targetId:"menu.read.journalAdmin"})
+p({class:"foam.nanos.auth.GroupPermissionJunction",sourceId:"journal",targetId:"menu.read.hughes.crunch.personalsettings"})

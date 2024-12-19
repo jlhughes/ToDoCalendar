@@ -1,11 +1,11 @@
 foam.CLASS({
   package: 'hughes.journal',
-  name: 'DaysSchedule',
+  name: 'CalendarSchedule',
   implements: [
     'foam.nanos.cron.Schedule'
   ],
 
-  documenation: 'Schedule for multiple days, optionally at a particular time',
+  documenation: 'Schedule for day and time duration',
 
   javaImports: [
     'foam.core.X'
@@ -15,22 +15,26 @@ foam.CLASS({
     {
       name: 'startDate',
       class: 'Date',
-      factory: function() { return Date.now(); },
       section: 'scheduleSection',
-      gridColumns: 2
-    },
-    {
-      name: 'allDay',
-      class: 'Boolean',
-      value: true,
-      section: 'scheduleSection',
-      gridColumns: 2
+      gridColumns: 3,
+      postSet: function(old, nu) {
+        if ( ! this.endDate || nu.getTime() > this.endDate.getTime() ) {
+          this.endDate = nu;
+        }
+      }
     },
     {
       name: 'startTime',
       class: 'String', // 'Time',
       view: { class: 'foam.u2.TimeView' },
-      // factory: function() { return foam.core.Time.create(); },
+      postSet: function(old, nu) {
+        var d = foam.Date.parseTime(nu);
+        if ( ! old ) {
+          d.setTime(d.getTime() + 30*60000);
+          this.endTime = foam.Date.formatTime(d);
+        }
+        // TODO: test startDate, endDate
+      },
       createVisibility: function(allDay) {
         if ( ! allDay ) {
           return foam.u2.DisplayMode.RW;
@@ -50,14 +54,18 @@ foam.CLASS({
         return foam.u2.DisplayMode.HIDDEN;
       },
       section: 'scheduleSection',
-      gridColumns: 2
+      gridColumns: 3
     },
     {
       name: 'endDate',
       class: 'Date',
-      factory: function() { return Date.now(); },
       section: 'scheduleSection',
-      gridColumns: 3
+      gridColumns: 3,
+      postSet: function(old, nu) {
+        if ( this.startDate && nu.getTime() < this.startDate.getTime() ) {
+          this.endDate = this.startDate;
+        }
+      }
     },
     {
       name: 'endTime',
@@ -85,6 +93,37 @@ foam.CLASS({
       },
       section: 'scheduleSection',
       gridColumns: 3
+    },
+    {
+      name: 'allDay',
+      class: 'Boolean',
+      value: true,
+      section: 'scheduleSection',
+      gridColumns: 3
+    },
+    {
+      documentation: 'Demonstration only - do show DateTime properties that will not save, or display properly in RO mode',
+      name: 'otherDateTime1',
+      class: 'DateTime',
+      section: 'scheduleSection',
+      gridColumns: 3,
+      postSet: function(old, nu) {
+        if ( ! this.otherDateTime2 || nu.getTime() > this.otherDateTime2.getTime() ) {
+          this.otherDateTime2 = nu;
+        }
+      }
+    },
+    {
+      documentation: 'Demonstration only - do show DateTime properties that will not save, or display properly in RO mode',
+      name: 'otherDateTime2',
+      class: 'DateTime',
+      section: 'scheduleSection',
+      gridColumns: 3,
+      postSet: function(old, nu) {
+        if ( this.otherDateTime1 && nu.getTime() < this.otherDateTime1.getTime() ) {
+          this.otherDateTime2 = this.otherDateTime1;
+        }
+      }
     }
   ],
 
@@ -98,7 +137,7 @@ foam.CLASS({
     },
     {
       name: 'getNextScheduledTime',
-      type: 'DateTime',
+      type: 'Date',
       args: 'X x, java.util.Date from',
       code: function() {
         return this.startDate;
@@ -112,6 +151,20 @@ foam.CLASS({
       javaCode: `
         // nop
       `
-    }
+    },
+  //   {
+  //     documentation: 'Build DateTime from startDate and startTime',
+  //     name: 'getStartDateTime',
+  //     type: 'DateTime',
+  //     code: function() {
+  //     }
+  //   },
+  //   {
+  //     documentation: 'Build DateTime from endDate and endTime',
+  //     name: 'getStartDateTime',
+  //     type: 'DateTime',
+  //     code: function() {
+  //     }
+  //   }
   ]
 })

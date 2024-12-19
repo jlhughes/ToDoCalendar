@@ -80,6 +80,7 @@ categories
     'status',
     'who',
     'what',
+    'where',
     'when'
   ],
 
@@ -160,12 +161,12 @@ categories
       class: 'FObjectProperty',
       of: 'foam.nanos.cron.Schedule',
       factory: function() {
-        return hughes.journal.DaySchedule.create({'date': Date.now()});
+        return hughes.journal.DaysSchedule.create();
       },
       tableCellFormatter: function(value, obj) {
         var self = this;
         if ( obj.when && obj.when.getNextScheduledTime ) {
-          this.add(obj.when.getNextScheduledTime());
+          this.add(obj.when.getNextScheduledTime().toLocaleDateString(foam.locale, {weekday: 'short', month: 'short', day: 'numeric', year: 'numeric'}));
         }
       },
       order: 7,
