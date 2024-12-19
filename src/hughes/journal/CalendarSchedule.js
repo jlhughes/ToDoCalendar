@@ -28,10 +28,10 @@ foam.CLASS({
       class: 'String', // 'Time',
       view: { class: 'foam.u2.TimeView' },
       postSet: function(old, nu) {
-        var d = foam.Date.parseTime(nu);
+        var d = this.parseTime(nu);
         if ( ! old ) {
           d.setTime(d.getTime() + 30*60000);
-          this.endTime = foam.Date.formatTime(d);
+          this.endTime = this.formatTime(d);
         }
         // TODO: test startDate, endDate
       },
@@ -100,30 +100,6 @@ foam.CLASS({
       value: true,
       section: 'scheduleSection',
       gridColumns: 3
-    },
-    {
-      documentation: 'Demonstration only - do show DateTime properties that will not save, or display properly in RO mode',
-      name: 'otherDateTime1',
-      class: 'DateTime',
-      section: 'scheduleSection',
-      gridColumns: 3,
-      postSet: function(old, nu) {
-        if ( ! this.otherDateTime2 || nu.getTime() > this.otherDateTime2.getTime() ) {
-          this.otherDateTime2 = nu;
-        }
-      }
-    },
-    {
-      documentation: 'Demonstration only - do show DateTime properties that will not save, or display properly in RO mode',
-      name: 'otherDateTime2',
-      class: 'DateTime',
-      section: 'scheduleSection',
-      gridColumns: 3,
-      postSet: function(old, nu) {
-        if ( this.otherDateTime1 && nu.getTime() < this.otherDateTime1.getTime() ) {
-          this.otherDateTime2 = this.otherDateTime1;
-        }
-      }
     }
   ],
 
@@ -166,5 +142,21 @@ foam.CLASS({
   //     code: function() {
   //     }
   //   }
+    /**
+     * Parse time from a String and optionally set the decoded time into the argument date.
+     * supports input formats: h, hh, hh:mm, h pm, hh:mm pm, ....
+     */
+    function parseTime(time, date = new Date()) { // hh[:mm] [am|pm]
+      var t = time.match( /(\d+)(?::(\d\d))?\s*(p?)/ );
+      date.setHours( parseInt( t[1]) + (t[3] ? 12 : 0) );
+      date.setMinutes( parseInt( t[2]) || 0 );
+      return date;
+    },
+    /**
+     * return date's time as string in format: hh:mm (by default)
+     */
+    function formatTime(date, options = { hour12: false, hour: '2-digit', minute: '2-digit' }) {
+      return date.toLocaleTimeString(foam.locale, options);
+    }
   ]
 })
