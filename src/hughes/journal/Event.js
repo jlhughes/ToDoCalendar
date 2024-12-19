@@ -160,9 +160,6 @@ categories
       name: 'when',
       class: 'FObjectProperty',
       of: 'foam.nanos.cron.Schedule',
-      factory: function() {
-        return hughes.journal.DaysSchedule.create();
-      },
       tableCellFormatter: function(value, obj) {
         var self = this;
         if ( obj.when && obj.when.getNextScheduledTime ) {
