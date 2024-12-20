@@ -1,0 +1,23 @@
+p({
+  class:"foam.nanos.cron.Cron",
+  id:"EventFollowUpAuto",
+  description:"Test for Event auto follow up",
+  code:"""
+    new hughes.journal.FollowUpAutoAgent().execute(x);
+  """,
+  schedule:{
+    class:"foam.nanos.cron.TimeOfDaySchedule",
+    time:{
+      class:"foam.nanos.cron.TimeHMS"
+    }
+  },
+  reattemptSchedule:{
+    class:"foam.nanos.cron.IntervalSchedule",
+    duration:{
+      class:"foam.nanos.cron.TimeHMS",
+      minute:5
+    },
+    start:1734667481084},
+  lastModifiedBy:42,
+  lastModified:1734667634996
+})

@@ -41,6 +41,7 @@ categories
   ],
 
   imports: [
+    'controllerMode?',
     'currencyDAO',
     'eventDAO',
     'userDAO'
@@ -160,6 +161,9 @@ categories
       name: 'when',
       class: 'FObjectProperty',
       of: 'foam.nanos.cron.Schedule',
+      factory: function() {
+        return hughes.journal.CalendarSchedule.create();
+      },
       tableCellFormatter: function(value, obj) {
         var self = this;
         if ( obj.when && obj.when.getNextScheduledTime ) {
@@ -174,7 +178,7 @@ categories
       class: 'String',
       view: {
         class: 'foam.u2.tag.TextArea',
-        rows: 4, cols: 60,
+        rows: 5, cols: 60,
       },
       order: 8,
       gridColumns: 6
@@ -183,7 +187,7 @@ categories
       name: 'transactions',
       class: 'FObjectArray',
       of: 'hughes.ledger.Transaction',
-      label: 'Ledger',
+      label: 'How Much',
       createVisibility: 'RW',
       updateVisibility: function(status) {
         if ( status == this.Status.OPEN ) {
@@ -199,6 +203,35 @@ categories
       },
       order: 9,
       gridColumns: 6
+    },
+    {
+      name: 'followUpAuto',
+      label: 'Follow Up',
+      class: 'Boolean',
+      order: 10,
+      gridColumns: 2,
+      postSet: function(old, nu) {
+        if ( ! old && nu &&
+             ! this.followUpAutoSchedule ) {
+          this.followUpAutoSchedule = hughes.journal.FollowUpSchedule.create();
+        }
+      }
+    },
+    {
+      name: 'followUpAutoSchedule',
+      class: 'FObjectProperty',
+      of: 'hughes.journal.FollowUpSchedule',
+      label: '',
+      order: 11,
+      gridColumns: 4,
+      visibility: function(followUpAuto) {
+        if ( followUpAuto ) {
+          if ( this.controllerMode == foam.u2.ControllerMode.EDIT )
+            return foam.u2.DisplayMode.RW;
+          return foam.u2.DisplayMode.RO;
+        }
+        return foam.u2.DisplayMode.HIDDEN;
+      }
     },
     {
       class: 'foam.nanos.fs.FileArray',
@@ -232,8 +265,8 @@ categories
           }
         };
       },
-      order: 10,
-      gridColumns: 6,
+      order: 13,
+      gridColumns: 12
     }
   ],
 
@@ -308,6 +341,33 @@ categories
           throw new AuthorizationException();
         }
       `
+    },
+    {
+      name: 'createFollowUp',
+      type: 'Event',
+      args: 'X x',
+      code: function(self) {
+        return hughes.journal.Event.create({
+          parent: self.id,
+          eventCategory: self.eventCategory,
+          access: self.access,
+          who: self.who,
+          what: self.what,
+          where: self.where,
+          followUpAuto: self.followUpAuto
+        });
+      },
+      javaCode: `
+      Event followUp = new Event();
+      followUp.setParent(getId());
+      followUp.setEventCategory(getEventCategory());
+      followUp.setAccess(getAccess());
+      followUp.setWho(getWho());
+      followUp.setWhat(getWhat());
+      followUp.setWhere(getWhere());
+      followUp.setFollowUpAuto(getFollowUpAuto());
+      return followUp;
+      `
     }
   ],
 
@@ -342,14 +402,7 @@ categories
           X = X.createSubContext({memento: X.memento.tail});
         }
 
-        var event = hughes.journal.Event.create({
-          parent: X.data.id,
-          eventCategory: X.data.eventCategory,
-          access: X.data.access,
-          who: X.data.who,
-          what: X.data.what,
-          where: X.data.where
-        });
+        var event = X.data.createFollowUp(X.data);
 
         X.stack.push({
           class: 'foam.comics.v2.DAOUpdateView',

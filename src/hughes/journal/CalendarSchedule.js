@@ -11,17 +11,31 @@ foam.CLASS({
     'foam.core.X'
   ],
 
+  css: `
+    ^allDay { height: $inputHeight }
+  `,
+
   properties: [
     {
       name: 'startDate',
       class: 'Date',
       section: 'scheduleSection',
       gridColumns: 3,
+      factory: function() {
+        return new Date();
+      },
       postSet: function(old, nu) {
         if ( ! this.endDate || nu.getTime() > this.endDate.getTime() ) {
           this.endDate = nu;
         }
       }
+    },
+    {
+      name: 'allDay',
+      class: 'Boolean',
+      value: true,
+      section: 'scheduleSection',
+      gridColumns: 1
     },
     {
       name: 'startTime',
@@ -54,7 +68,7 @@ foam.CLASS({
         return foam.u2.DisplayMode.HIDDEN;
       },
       section: 'scheduleSection',
-      gridColumns: 3
+      gridColumns: 2
     },
     {
       name: 'endDate',
@@ -65,6 +79,24 @@ foam.CLASS({
         if ( this.startDate && nu.getTime() < this.startDate.getTime() ) {
           this.endDate = this.startDate;
         }
+      },
+      createVisibility: function(allDay) {
+        if ( ! allDay ) {
+          return foam.u2.DisplayMode.RW;
+        }
+        return foam.u2.DisplayMode.HIDDEN;
+      },
+      updateVisibility: function(allDay) {
+        if ( ! allDay ) {
+          return foam.u2.DisplayMode.RW;
+        }
+        return foam.u2.DisplayMode.HIDDEN;
+      },
+      readVisibility: function(allDay) {
+        if ( ! allDay ) {
+          return foam.u2.DisplayMode.RO;
+        }
+        return foam.u2.DisplayMode.HIDDEN;
       }
     },
     {
@@ -91,13 +123,6 @@ foam.CLASS({
         }
         return foam.u2.DisplayMode.HIDDEN;
       },
-      section: 'scheduleSection',
-      gridColumns: 3
-    },
-    {
-      name: 'allDay',
-      class: 'Boolean',
-      value: true,
       section: 'scheduleSection',
       gridColumns: 3
     }

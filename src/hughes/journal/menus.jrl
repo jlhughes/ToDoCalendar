@@ -18,13 +18,6 @@ p({
       "cannedQueries": [
         {
           "class": "foam.comics.v2.CannedQuery",
-          "label": "All",
-          "predicate": {
-            "class":"foam.mlang.predicate.True"
-          }
-        },
-        {
-          "class": "foam.comics.v2.CannedQuery",
           "label": "Open",
           "predicate": {
             "class": "foam.mlang.predicate.Eq",
@@ -53,6 +46,13 @@ p({
               "class": "foam.mlang.Constant",
               "value": 99
             }
+          }
+        },
+        {
+          "class": "foam.comics.v2.CannedQuery",
+          "label": "All",
+          "predicate": {
+            "class":"foam.mlang.predicate.True"
           }
         }
       ]
