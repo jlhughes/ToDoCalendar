@@ -12,44 +12,61 @@ foam.CLASS({
   ],
 
   tableColumns: [
+    'tag',
     'name',
     'make',
     'model',
-    'serialNumber'
+    'serialNumber',
+    'location'
   ],
 
   properties: [
     {
       name: 'id',
       class: 'String',
-      createVisibility: 'HIDDEN',
-      updateVisibility: 'RO',
+      placeholder: 'auto generated',
+      visibility: 'RO',
+      gridColumns: 6
+    },
+    {
+      name: 'tag',
+      class: 'String',
+      placeholder: 'defaults to id',
+      factory: function() { return this.id; },
+      javaFactory: 'return getId();',
       gridColumns: 6
     },
     {
       name: 'name',
       class: 'String',
-      gridColumns: 6
+      label: 'Name/Description',
+      required: true,
+      gridColumns: 4
     },
     {
       name: 'make',
       class: 'String',
-      gridColumns: 6
+      gridColumns: 4
     },
     {
       name: 'model',
       class: 'String',
-      gridColumns: 6
+      gridColumns: 4
     },
     {
       name: 'serialNumber',
       class: 'String',
-      gridColumns: 6
+      gridColumns: 4
+    },
+    {
+      name: 'location',
+      class: 'String',
+      gridColumns: 4
     },
     {
       name: 'url',
       class: 'String',
-      gridColumns: 6
+      gridColumns: 4
     },
     {
       name: 'notes',
@@ -91,6 +108,10 @@ foam.CLASS({
         };
       },
       gridColumns: 6,
+    },
+    {
+      name: 'createdByAgent',
+      visibility: 'HIDDEN'
     }
   ],
 
@@ -99,7 +120,14 @@ foam.CLASS({
       name: 'toSummary',
       type: 'String',
       code: function() {
-        return this.name;
+        return this.name + (this.location ? ' ('+this.location+')' : '');
+      }
+    },
+    {
+      name: 'assetNumber',
+      type: 'String',
+      code: function() {
+        return this.tag || this.id;
       }
     }
   ],
