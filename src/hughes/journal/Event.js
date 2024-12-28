@@ -267,6 +267,10 @@ categories
       },
       order: 13,
       gridColumns: 12
+    },
+    {
+      name: 'createdByAgent',
+      visibility: 'HIDDEN'
     }
   ],
 

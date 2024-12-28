@@ -155,6 +155,10 @@ foam.CLASS({
       }
       return sb.toString();
       `
+    },
+    {
+      name: 'createdByAgent',
+      visibility: 'HIDDEN'
     }
   ],
 

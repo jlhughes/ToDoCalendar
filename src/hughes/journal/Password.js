@@ -148,6 +148,10 @@ foam.CLASS({
       },
 //      order: 10,
       gridColumns: 6,
+    },
+    {
+      name: 'createdByAgent',
+      visibility: 'HIDDEN'
     }
   ],
 
