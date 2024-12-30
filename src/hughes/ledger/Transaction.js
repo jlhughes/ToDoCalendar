@@ -13,7 +13,15 @@ Transactions rebuild account balance on replay.
 
   implements: [
     'foam.nanos.auth.CreatedAware',
-    'foam.nanos.auth.CreatedByAware'
+    'foam.nanos.auth.CreatedByAware',
+    {
+      path: 'foam.mlang.Expressions',
+      flags: ['js'],
+    }
+  ],
+
+  requires: [
+    'hughes.ledger.Account'
   ],
 
   imports: [
@@ -56,10 +64,36 @@ Transactions rebuild account balance on replay.
       }
     },
     {
+      name: 'debitAccountUser',
+      class: 'Reference',
+      of: 'foam.nanos.auth.User',
+      label: 'Debit User',
+      transient: true,
+      createVisibility: 'RW',
+      updateVisibility: function(id) {
+        if ( ! id ) {
+          return foam.u2.DisplayMode.RW;
+        }
+        return foam.u2.DisplayMode.HIDDEN;
+      },
+      readVisibility: function() {
+        return foam.u2.DisplayMode.HIDDEN;
+      },
+      view: {
+        class: 'foam.u2.view.RichChoiceReferenceView'
+      },
+      postSet: function(oldValue, newValue) {
+        if ( oldValue !== newValue ) {
+          this.debitAccount = undefined;
+        }
+      },
+      gridColumns: 3
+    },
+    {
       name: 'debitAccount',
       class: 'Reference',
       of: 'hughes.ledger.Account',
-      label: 'Debit',
+      label: 'Debit Account',
       createVisibility: 'RW',
       updateVisibility: function(id) {
         if ( ! id ) {
@@ -69,6 +103,20 @@ Transactions rebuild account balance on replay.
       },
       readVisibility: function() {
         return foam.u2.DisplayMode.RO;
+      },
+      view: function(_, X) {
+        if ( X.data.id ) {
+          return foam.u2.view.RichChoiceReferenceView.create({}, X);
+        }
+        var choices = X.data.slot(function(debitAccountUser) {
+          return X.accountDAO.where(X.data.EQ(X.data.Account.OWNER, debitAccountUser || ''));
+        });
+        return foam.u2.view.ChoiceView.create({
+          objToChoice: function(account) {
+            return [account.id, account.toSummary()];
+          },
+          dao$: choices
+        }, X);
       },
       tableCellFormatter: function(val, obj) {
         var self = this;
@@ -79,11 +127,37 @@ Transactions rebuild account balance on replay.
       gridColumns: 3
     },
     {
+      name: 'creditAccountUser',
+      class: 'Reference',
+      of: 'foam.nanos.auth.User',
+      label: 'Credit User',
+      transient: true,
+      createVisibility: 'RW',
+      updateVisibility: function(id) {
+        if ( ! id ) {
+          return foam.u2.DisplayMode.RW;
+        }
+        return foam.u2.DisplayMode.HIDDEN;
+      },
+      readVisibility: function() {
+        return foam.u2.DisplayMode.HIDDEN;
+      },
+      view: {
+        class: 'foam.u2.view.RichChoiceReferenceView'
+      },
+      postSet: function(oldValue, newValue) {
+        if ( oldValue !== newValue ) {
+          this.creditAccount = undefined;
+        }
+      },
+      gridColumns: 3
+    },
+    {
       // TODO: need input fields to select user, then select accounts of user
       name: 'creditAccount',
       class: 'Reference',
       of: 'hughes.ledger.Account',
-      label: 'Credit',
+      label: 'Credit Account',
       createVisibility: 'RW',
       updateVisibility: function(id) {
         if ( ! id ) {
@@ -93,6 +167,20 @@ Transactions rebuild account balance on replay.
       },
       readVisibility: function() {
         return foam.u2.DisplayMode.RO;
+      },
+      view: function(_, X) {
+        if ( X.data.id ) {
+          return foam.u2.view.RichChoiceReferenceView.create({}, X);
+        }
+        var choices = X.data.slot(function(creditAccountUser) {
+          return X.accountDAO.where(X.data.EQ(X.data.Account.OWNER, creditAccountUser || ''));
+        });
+        return foam.u2.view.ChoiceView.create({
+          objToChoice: function(account) {
+            return [account.id, account.toSummary()];
+          },
+          dao$: choices
+        }, X);
       },
       tableCellFormatter: function(val, obj) {
         var self = this;
@@ -267,8 +355,10 @@ Transactions rebuild account balance on replay.
         if ( ! id ) {
           return foam.u2.DisplayMode.HIDDEN;
         }
-        return foam.u2.DisplayMode.RO;
-      }
+        // NOTE: hidden until can control from parent view
+        return foam.u2.DisplayMode.HIDDEN; // RO;
+      },
+      gridColumns: 3
     },
     {
       name: 'createdBy',
@@ -283,8 +373,10 @@ Transactions rebuild account balance on replay.
         if ( ! id ) {
           return foam.u2.DisplayMode.HIDDEN;
         }
-        return foam.u2.DisplayMode.RO;
-      }
+        // NOTE: hidden until can control from parent view
+        return foam.u2.DisplayMode.HIDDEN; // RO;
+      },
+      gridColumns: 3
     },
     {
       name: 'createdByAgent',
