@@ -68,33 +68,38 @@ foam.CLASS({
       class: 'Enum',
       of: 'hughes.journal.AccessLevel',
       value: 'PRIVATE',
-      order: 3,
       gridColumns: 4
     },
     {
       name: 'description',
       class: 'String',
-      gridColumns: 6
-    },
-    {
-      name: 'site',
-      class: 'String',
-      gridColumns: 6
+      required: true,
+      gridColumns: 4,
     },
     {
       name: 'password',
       class: 'Password',
-      gridColumns: 6
+      gridColumns: 4
+    },
+    {
+      name: 'site',
+      class: 'String',
+      gridColumns: 4
     },
     {
       name: 'loginId',
       class: 'String',
-      gridColumns: 6
+      gridColumns: 4
     },
     {
       name: 'username',
       class: 'String',
-      gridColumns: 6
+      gridColumns: 4
+    },
+    {
+      name: 'email',
+      class: 'EMail',
+      gridColumns: 4
     },
     {
       name: 'memo',
@@ -103,7 +108,6 @@ foam.CLASS({
         class: 'foam.u2.tag.TextArea',
         rows: 4, cols: 60,
       },
-//      order: 8,
       gridColumns: 6
     },
     {
@@ -146,16 +150,26 @@ foam.CLASS({
           }
         };
       },
-//      order: 10,
-      gridColumns: 6,
+      gridColumns: 6
     },
     {
       name: 'createdByAgent',
+      visibility: 'HIDDEN'
+    },
+    {
+      name: 'lastModifiedByAgent',
       visibility: 'HIDDEN'
     }
   ],
 
   methods: [
+    {
+      name: 'toSummary',
+      type: 'String',
+      code: function() {
+        return this.description;
+      }
+    },
     {
       name: 'authorizeOnCreate',
       args: 'X x',
