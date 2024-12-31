@@ -171,7 +171,14 @@ categories
         }
       },
       order: 7,
-      gridColumns: 6
+      gridColumns: 6,
+      javaCompare: `
+      if ( o1 != null && o2 != null ) {
+        return ((Event)(o1)).getWhen().getNextScheduledTime(foam.core.XLocator.get(), null).compareTo(((Event)(o2)).getWhen().getNextScheduledTime(foam.core.XLocator.get(), null));
+      }
+      if ( o1 == null && o2 == null) return 0;
+      return o1 == null ? -1 : 1;
+     `
     },
     {
       name: 'why',
@@ -282,7 +289,8 @@ categories
         var summary = this.eventCategory;
         if ( this.who ) {
           var user = await this.who$find;
-          summary += " " +user.toSummary();
+          if ( user )
+            summary += " " +user.toSummary();
         }
         summary += " "+ this.what + " " + this.status;
         return summary;

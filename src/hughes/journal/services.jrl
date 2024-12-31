@@ -13,10 +13,9 @@ p({
       .setDecorator(new hughes.journal.EventTransactionDAO.Builder(x).setDelegate(new hughes.journal.EventStatusDAO.Builder(x).setDelegate(
 new foam.dao.NullDAO(x, hughes.journal.Event.getOwnClassInfo())).build()).build())
       .setOrder(new foam.mlang.order.Comparator[] {
-        foam.mlang.MLang.DESC(hughes.journal.Event.WHEN),
-        hughes.journal.Event.STATUS
+        foam.mlang.MLang.DESC(hughes.journal.Event.WHEN)
       })
-      .build()
+      .build();
   """,
   "client":"""
     {
