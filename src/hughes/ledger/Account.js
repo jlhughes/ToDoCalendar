@@ -148,7 +148,7 @@ foam.CLASS({
         sb.append(" - ");
         sb.append(mask(getNumber()));
       }
-      foam.nanos.auth.User user = findOwner(getX());
+      foam.nanos.auth.User user = findOwner(foam.core.XLocator.get());
       if ( user != null ) {
         sb.append(" - ");
         sb.append(user.toSummary());
@@ -199,7 +199,7 @@ foam.CLASS({
         sb.append(" - ");
         sb.append(mask(getNumber()));
       }
-      foam.nanos.auth.User user = findOwner(getX());
+      foam.nanos.auth.User user = findOwner(foam.core.XLocator.get());
       if ( user != null ) {
         sb.append(" - ");
         sb.append(user.toSummary());
