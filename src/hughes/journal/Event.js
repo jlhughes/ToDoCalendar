@@ -173,11 +173,17 @@ categories
       order: 7,
       gridColumns: 6,
       javaCompare: `
-      if ( o1 != null && o2 != null ) {
-        return ((Event)(o1)).getWhen().getNextScheduledTime(foam.core.XLocator.get(), null).compareTo(((Event)(o2)).getWhen().getNextScheduledTime(foam.core.XLocator.get(), null));
-      }
       if ( o1 == null && o2 == null) return 0;
-      return o1 == null ? -1 : 1;
+      if ( o1 == null ) return -1;
+      if ( o2 == null ) return 1;
+
+      Event e1 = (Event) o1;
+      Event e2 = (Event) o2;
+      if ( e1.getWhen() == null && e2.getWhen() == null ) return 0;
+      if ( e1.getWhen() == null ) return -1;
+      if ( e2.getWhen() == null ) return 1;
+
+      return ((Event)(o1)).getWhen().getNextScheduledTime(foam.core.XLocator.get(), null).compareTo(((Event)(o2)).getWhen().getNextScheduledTime(foam.core.XLocator.get(), null));
      `
     },
     {
