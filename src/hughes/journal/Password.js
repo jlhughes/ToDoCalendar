@@ -57,7 +57,7 @@ foam.CLASS({
       tableCellFormatter: function(value, obj) {
         var self = this;
         obj.userDAO.find(value).then(function(u) {
-          self.add(u.toSummary());
+          if ( u ) self.add(u.toSummary());
         });
       },
       gridColumns: 4
