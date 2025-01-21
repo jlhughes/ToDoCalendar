@@ -1,0 +1,95 @@
+p({
+  "class": "foam.nanos.boot.NSpec",
+  "name": "http",
+  "lazy": false,
+  "service": {
+    "class": "foam.nanos.jetty.HttpServer",
+    "enableHttp": false,
+    "enableHttps": true,
+    "keystoreFileName": "foam.jks",
+    "keystorePassword": "foamfoam",
+    "welcomeFiles": ["welcome"],
+    "servletMappings": [{
+      "class": "foam.nanos.servlet.ServletMapping",
+      "servletObject": {
+        "class": "foam.nanos.servlet.VirtualHostRoutingServlet",
+        "headerParameters": {
+          "Cache-Control": "public,max-age=3600,immutable"
+        }
+      },
+      "pathSpec": "/welcome"
+    }, {
+      "class": "foam.nanos.servlet.ServletMapping",
+      "className": "foam.nanos.http.NanoRouter",
+      "pathSpec": "/service/*"
+    }, {
+      "class": "foam.nanos.servlet.ServletMapping",
+      "className": "foam.nanos.servlet.ResourceImageServlet",
+      "pathSpec": "/images/*",
+      "initParameters": {
+        "cacheControl": "public,max-age=2419200"
+      }
+    }, {
+      "class": "foam.nanos.servlet.ServletMapping",
+      "className": "org.eclipse.jetty.servlet.DefaultServlet",
+      "pathSpec": "/*",
+      "initParameters": {
+        "cacheControl": "public,max-age=2419200,immutable",
+        "dirAllowed": "false",
+        "pathInfoOnly": "true",
+        "precompressed": "true",
+        "welcomeServlets": "true"
+      }
+    }],
+    "errorMappings": [{
+      "class": "foam.nanos.servlet.ErrorPageMapping",
+      "errorCode": 404,
+      "location": "/errorPage.html"
+    }, {
+      "class": "foam.nanos.servlet.ErrorPageMapping",
+      "exceptionType": "javax.ws.rs.NotAuthorizedException",
+      "location": "/unauthorizedAccess.html"
+    }, {
+      "class": "foam.nanos.servlet.ErrorPageMapping",
+      "exceptionType": "java.lang.Throwable",
+      "location": "/errorPage.html"
+    }],
+    "filterMappings": [{
+      "class": "foam.nanos.servlet.FilterMapping",
+      "filterClass": "foam.nanos.http.csp.CSPFilter",
+      "pathSpec": "/*",
+      "initParameters": {
+        "CONTENT_SECURITY_POLICY": """
+          default-src 'self' data: chrome-extension-resource:;
+          connect-src 'self' http://localhost:*/service/ https://fonts.googleapis.com/css2 https://www.google.com/pagead;
+          frame-src 'self' data: blob: filesystem:
+          frame-ancestors 'self';
+          font-src 'self' https://fonts.gstatic.com data: chrome-extension-resource:;
+          img-src 'self' data: blob: filesystem: https://play.google.com;
+          manifest-src 'self';
+          media-src * data: blob: filesystem:;
+          object-src 'self' data: blob: filesystem:;
+          report-uri /service/CSPReportWebAgent;
+          worker-src 'self';
+          script-src 'self' https://cdn.plaid.com/link/v2/stable/link-initialize.js https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.3/html2pdf.bundle.min.js 'unsafe-eval' 'sha256-HY1JzEwuxkis4xx0ggY23gbYY/MCEAE1T6+OQnWS2vA=' 'sha256-NiNrLgJ8wbIXIi5saiR3XTd1Mxm4k0nju66GJsw4b9U=' 'sha256-FLYDXBkz4oo/H5jEfYXqAGYUwERY44OO1yznaMCdMiU=' 'sha256-G3UfiJBy6rwOk3glkBQuQDFA7IoCtiOT56gTh+IfNF0=';
+          style-src 'self' https://fonts.googleapis.com/css https://fonts.googleapis.com/css2 https://fonts.googleapis.com/icon data: chrome-extension-resource: 'unsafe-inline';
+        """
+      }
+    }]
+  }
+})
+
+p({
+  "class": "foam.nanos.boot.NSpec",
+  "name": "sslContextFactory",
+  "description": "ssl context factory for creating ssl socket",
+  "lazy":false,
+  "service": {
+    "class": "foam.box.socket.SslContextFactory",
+    "enableSSL": false,
+    "keyStorePath": "foam.jks",
+    "keyStorePass": "foamfoam",
+    "trustStorePath": "foam.jks",
+    "trustStorePass": "foamfoam"
+  }
+})

@@ -1,2 +1,2 @@
 #!/bin/bash
-node foam3/tools/build.js -Jjournal,demo -W8100 "$@"
+./build.sh -Jjournal,demo -Njournal_demo -W8100 "$@"

@@ -1,3 +1,1 @@
-foam.POM({
-  name: 'demo'
-})
+foam.POM({name: 'demo'});
