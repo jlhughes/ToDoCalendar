@@ -1,6 +1,6 @@
 p({
   class: "foam.strategy.StrategyReference",
   id: "CalendarSchedule",
-  desiredModelId: "foam.nanos.cron.Schedule",
+  desiredModelId: "foam.core.cron.Schedule",
   strategy: "hughes.journal.CalendarSchedule"
 })

@@ -4,10 +4,10 @@ foam.CLASS({
 
   implements: [
     'foam.mlang.Expressions',
-    'foam.nanos.auth.CreatedAware',
-    'foam.nanos.auth.CreatedByAware',
-    'foam.nanos.auth.LastModifiedAware',
-    'foam.nanos.auth.LastModifiedByAware'
+    'foam.core.auth.CreatedAware',
+    'foam.core.auth.CreatedByAware',
+    'foam.core.auth.LastModifiedAware',
+    'foam.core.auth.LastModifiedByAware'
   ],
 
   imports: [
@@ -25,10 +25,10 @@ foam.CLASS({
   ],
 
   javaImports: [
-    'foam.core.X',
+    'foam.lang.X',
     'foam.dao.DAO',
     'static foam.mlang.MLang.EQ',
-    'foam.nanos.logger.Loggers',
+    'foam.core.logger.Loggers',
     'foam.util.SafetyUtil',
     'hughes.ledger.Direction'
   ],
@@ -68,7 +68,7 @@ foam.CLASS({
     {
       name: 'owner',
       class: 'Reference',
-      of: 'foam.nanos.auth.User',
+      of: 'foam.core.auth.User',
       required: true,
       view: function(_, X) {
         return {
@@ -110,7 +110,7 @@ foam.CLASS({
       createVisibility: 'HIDDEN',
       updateVisibility: 'RO',
       // javaGetter: `
-      //   return findBalance(foam.core.XLocator.get());
+      //   return findBalance(foam.lang.XLocator.get());
       // `,
       storageTransient: true,
     },
@@ -122,14 +122,14 @@ foam.CLASS({
       updateVisibility: 'RO',
       // // TODO: don't clone or freeze
       // javaGetter: `
-      //   return findTotal(foam.core.XLocator.get());
+      //   return findTotal(foam.lang.XLocator.get());
       // `,
       storageTransient: true
     },
     {
       name: 'currency',
       class: 'Reference',
-      of: 'foam.core.Unit',
+      of: 'foam.lang.Unit',
       targetDAOKey: 'currencyDAO',
       value: 'CAD',
       createVisibility: 'RW',
@@ -148,7 +148,7 @@ foam.CLASS({
         sb.append(" - ");
         sb.append(mask(getNumber()));
       }
-      foam.nanos.auth.User user = findOwner(foam.core.XLocator.get());
+      foam.core.auth.User user = findOwner(foam.lang.XLocator.get());
       if ( user != null ) {
         sb.append(" - ");
         sb.append(user.toSummary());
@@ -199,7 +199,7 @@ foam.CLASS({
         sb.append(" - ");
         sb.append(mask(getNumber()));
       }
-      foam.nanos.auth.User user = findOwner(foam.core.XLocator.get());
+      foam.core.auth.User user = findOwner(foam.lang.XLocator.get());
       if ( user != null ) {
         sb.append(" - ");
         sb.append(user.toSummary());

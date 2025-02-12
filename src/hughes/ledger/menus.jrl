@@ -1,9 +1,9 @@
 p({
-  "class": "foam.nanos.menu.Menu",
+  "class": "foam.core.menu.Menu",
   "id": "account",
   "label": "Accounts",
   "handler": {
-    "class": "foam.nanos.menu.DAOMenu2",
+    "class": "foam.core.menu.DAOMenu2",
     "config": {
       "class": "foam.comics.v2.DAOControllerConfig",
       "daoKey": "accountTableViewDAO"
@@ -11,11 +11,11 @@ p({
   }
 })
 p({
-  "class": "foam.nanos.menu.Menu",
+  "class": "foam.core.menu.Menu",
   "id": "accountCode",
   "label": "Account Codes",
   "handler": {
-    "class": "foam.nanos.menu.DAOMenu2",
+    "class": "foam.core.menu.DAOMenu2",
     "config": {
       "class": "foam.comics.v2.DAOControllerConfig",
       "daoKey": "accountCodeDAO"
@@ -24,11 +24,11 @@ p({
   "parent": "journalAdmin"
 })
 p({
-  "class": "foam.nanos.menu.Menu",
+  "class": "foam.core.menu.Menu",
   "id": "transaction",
   "label": "Transactions",
   "handler": {
-    "class": "foam.nanos.menu.DAOMenu2",
+    "class": "foam.core.menu.DAOMenu2",
     "config": {
       "class": "foam.comics.v2.DAOControllerConfig",
       "daoKey": "transactionDAO",

@@ -1,5 +1,5 @@
 p({
-  "class":"foam.nanos.boot.NSpec",
+  "class":"foam.core.boot.CSpec",
   "name":"eventDAO",
   "lazy":false,
   "serve":true,
@@ -23,14 +23,14 @@ new foam.dao.NullDAO(x, hughes.journal.Event.getOwnClassInfo())).build()).build(
       "cache":false,
       "decorators":
         [
-          {"class":"foam.nanos.fs.FileDAODecorator"},
-          {"class":"foam.nanos.fs.FileArrayDAODecorator"}
+          {"class":"foam.core.fs.FileDAODecorator"},
+          {"class":"foam.core.fs.FileArrayDAODecorator"}
         ]
     }
   """
 })
 p({
-  "class":"foam.nanos.boot.NSpec",
+  "class":"foam.core.boot.CSpec",
   "name":"eventCategoryDAO",
   "serve":true,
   "authenticate": false,
@@ -48,7 +48,7 @@ p({
   """
 })
 p({
-  "class":"foam.nanos.boot.NSpec",
+  "class":"foam.core.boot.CSpec",
   "name":"passwordDAO",
   "serve":true,
   "authenticate": false,
@@ -68,14 +68,14 @@ p({
       "cache":false,
       "decorators":
         [
-          {"class":"foam.nanos.fs.FileDAODecorator"},
-          {"class":"foam.nanos.fs.FileArrayDAODecorator"}
+          {"class":"foam.core.fs.FileDAODecorator"},
+          {"class":"foam.core.fs.FileArrayDAODecorator"}
         ]
     }
   """
 })
 p({
-  "class": "foam.nanos.boot.NSpec",
+  "class": "foam.core.boot.CSpec",
   "name": "passwordHistoryDAO",
   "description": "DAO containing any modifications made to password",
   "serve": true,
@@ -96,7 +96,7 @@ p({
   """
 })
 p({
-  "class":"foam.nanos.boot.NSpec",
+  "class":"foam.core.boot.CSpec",
   "name":"assetDAO",
   "serve":true,
   "authenticate": false,
@@ -116,8 +116,8 @@ p({
       "cache":false,
       "decorators":
         [
-          {"class":"foam.nanos.fs.FileDAODecorator"},
-          {"class":"foam.nanos.fs.FileArrayDAODecorator"}
+          {"class":"foam.core.fs.FileDAODecorator"},
+          {"class":"foam.core.fs.FileArrayDAODecorator"}
         ]
     }
   """

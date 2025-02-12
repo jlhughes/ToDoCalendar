@@ -1,5 +1,5 @@
 // p({
-//   "class": "foam.nanos.boot.NSpec",
+//   "class": "foam.core.boot.CSpec",
 //   "name": "oidcProviderDAO",
 //   "serve": true
 // })

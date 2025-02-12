@@ -1,5 +1,5 @@
 p({
-  "class":"foam.nanos.auth.Group",
+  "class":"foam.core.auth.Group",
   "id":"journal",
   "enabled":true,
   "description":"Main user group of journal users",

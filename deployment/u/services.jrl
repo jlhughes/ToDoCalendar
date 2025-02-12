@@ -1,36 +1,36 @@
 p({
-  "class": "foam.nanos.boot.NSpec",
+  "class": "foam.core.boot.CSpec",
   "name": "http",
   "lazy": false,
   "service": {
-    "class": "foam.nanos.jetty.HttpServer",
+    "class": "foam.core.jetty.HttpServer",
     "enableHttp": false,
     "enableHttps": true,
     "keystoreFileName": "foam.jks",
     "keystorePassword": "foamfoam",
     "welcomeFiles": ["welcome"],
     "servletMappings": [{
-      "class": "foam.nanos.servlet.ServletMapping",
+      "class": "foam.core.servlet.ServletMapping",
       "servletObject": {
-        "class": "foam.nanos.servlet.VirtualHostRoutingServlet",
+        "class": "foam.core.servlet.VirtualHostRoutingServlet",
         "headerParameters": {
           "Cache-Control": "public,max-age=3600,immutable"
         }
       },
       "pathSpec": "/welcome"
     }, {
-      "class": "foam.nanos.servlet.ServletMapping",
-      "className": "foam.nanos.http.NanoRouter",
+      "class": "foam.core.servlet.ServletMapping",
+      "className": "foam.core.http.NanoRouter",
       "pathSpec": "/service/*"
     }, {
-      "class": "foam.nanos.servlet.ServletMapping",
-      "className": "foam.nanos.servlet.ResourceImageServlet",
+      "class": "foam.core.servlet.ServletMapping",
+      "className": "foam.core.servlet.ResourceImageServlet",
       "pathSpec": "/images/*",
       "initParameters": {
         "cacheControl": "public,max-age=2419200"
       }
     }, {
-      "class": "foam.nanos.servlet.ServletMapping",
+      "class": "foam.core.servlet.ServletMapping",
       "className": "org.eclipse.jetty.servlet.DefaultServlet",
       "pathSpec": "/*",
       "initParameters": {
@@ -42,21 +42,21 @@ p({
       }
     }],
     "errorMappings": [{
-      "class": "foam.nanos.servlet.ErrorPageMapping",
+      "class": "foam.core.servlet.ErrorPageMapping",
       "errorCode": 404,
       "location": "/errorPage.html"
     }, {
-      "class": "foam.nanos.servlet.ErrorPageMapping",
+      "class": "foam.core.servlet.ErrorPageMapping",
       "exceptionType": "javax.ws.rs.NotAuthorizedException",
       "location": "/unauthorizedAccess.html"
     }, {
-      "class": "foam.nanos.servlet.ErrorPageMapping",
+      "class": "foam.core.servlet.ErrorPageMapping",
       "exceptionType": "java.lang.Throwable",
       "location": "/errorPage.html"
     }],
     "filterMappings": [{
-      "class": "foam.nanos.servlet.FilterMapping",
-      "filterClass": "foam.nanos.http.csp.CSPFilter",
+      "class": "foam.core.servlet.FilterMapping",
+      "filterClass": "foam.core.http.csp.CSPFilter",
       "pathSpec": "/*",
       "initParameters": {
         "CONTENT_SECURITY_POLICY": """
@@ -80,7 +80,7 @@ p({
 })
 
 p({
-  "class": "foam.nanos.boot.NSpec",
+  "class": "foam.core.boot.CSpec",
   "name": "sslContextFactory",
   "description": "ssl context factory for creating ssl socket",
   "lazy":false,

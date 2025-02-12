@@ -1,5 +1,5 @@
 foam.RELATIONSHIP({
-  sourceModel: 'foam.nanos.auth.User',
+  sourceModel: 'foam.core.auth.User',
   targetModel: 'hughes.ledger.Account',
   forwardName: 'accounts',
   inverseName: 'owner',

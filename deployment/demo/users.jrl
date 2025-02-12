@@ -1,6 +1,6 @@
 // defautl password: demopassword
 p({
-  "class":"foam.nanos.auth.User",
+  "class":"foam.core.auth.User",
   "id": 79906623,
   "spid":"foam",
   "userName":"bob",
@@ -16,7 +16,7 @@ p({
   "password":"KXhxt4A92FU=:cBZUzMFSstyVdwVbIL1r6ZTFKLVz3DYZw/apfnrUmInWuenVoGrpYCFQu4ms1sNZblsR1v/AUgDZAV5/JS0Enw=="
 })
 p({
-  "class":"foam.nanos.auth.User",
+  "class":"foam.core.auth.User",
   "id": 97457147,
   "spid":"foam",
   "userName":"bill",
@@ -32,7 +32,7 @@ p({
   "password":"KXhxt4A92FU=:cBZUzMFSstyVdwVbIL1r6ZTFKLVz3DYZw/apfnrUmInWuenVoGrpYCFQu4ms1sNZblsR1v/AUgDZAV5/JS0Enw=="
 })
 p({
-  "class":"foam.nanos.auth.User",
+  "class":"foam.core.auth.User",
   "id": 115077047,
   "spid":"foam",
   "userName":"betty",

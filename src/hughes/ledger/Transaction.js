@@ -12,8 +12,8 @@ Transactions rebuild account balance on replay.
   // reconciliation? or on event?
 
   implements: [
-    'foam.nanos.auth.CreatedAware',
-    'foam.nanos.auth.CreatedByAware',
+    'foam.core.auth.CreatedAware',
+    'foam.core.auth.CreatedByAware',
     {
       path: 'foam.mlang.Expressions',
       flags: ['js'],
@@ -66,7 +66,7 @@ Transactions rebuild account balance on replay.
     {
       name: 'debitAccountUser',
       class: 'Reference',
-      of: 'foam.nanos.auth.User',
+      of: 'foam.core.auth.User',
       label: 'Debit User',
       transient: true,
       createVisibility: 'RW',
@@ -129,7 +129,7 @@ Transactions rebuild account balance on replay.
     {
       name: 'creditAccountUser',
       class: 'Reference',
-      of: 'foam.nanos.auth.User',
+      of: 'foam.core.auth.User',
       label: 'Credit User',
       transient: true,
       createVisibility: 'RW',

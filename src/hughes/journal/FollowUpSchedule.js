@@ -2,13 +2,13 @@ foam.CLASS({
   package: 'hughes.journal',
   name: 'FollowUpSchedule',
   implements: [
-    'foam.nanos.cron.Schedule'
+    'foam.core.cron.Schedule'
   ],
 
   documentation: 'Schedule to create a follow-up event.',
 
   javaImports: [
-    'foam.core.X'
+    'foam.lang.X'
   ],
 
   properties: [

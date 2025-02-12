@@ -33,11 +33,11 @@ categories
  `,
 
   implements: [
-    'foam.nanos.auth.Authorizable',
-    'foam.nanos.auth.CreatedAware',
-    'foam.nanos.auth.CreatedByAware',
-    'foam.nanos.auth.LastModifiedAware',
-    'foam.nanos.auth.LastModifiedByAware'
+    'foam.core.auth.Authorizable',
+    'foam.core.auth.CreatedAware',
+    'foam.core.auth.CreatedByAware',
+    'foam.core.auth.LastModifiedAware',
+    'foam.core.auth.LastModifiedByAware'
   ],
 
   imports: [
@@ -50,10 +50,10 @@ categories
   requires: [
     'foam.dao.AbstractDAO',
     'foam.log.LogLevel',
-    'foam.nanos.auth.AuthorizationException',
-    'foam.nanos.auth.AuthService',
-    'foam.nanos.auth.Subject',
-    'foam.nanos.auth.User',
+    'foam.core.auth.AuthorizationException',
+    'foam.core.auth.AuthService',
+    'foam.core.auth.Subject',
+    'foam.core.auth.User',
     'hughes.journal.AccessLevel',
     'hughes.journal.EventCategory',
     'hughes.journal.WhenChoice',
@@ -61,12 +61,12 @@ categories
   ],
 
   javaImports: [
-    'foam.core.X',
+    'foam.lang.X',
     'foam.dao.DAO',
-    'foam.nanos.auth.AuthorizationException',
-    'foam.nanos.auth.AuthService',
-    'foam.nanos.auth.Subject',
-    'foam.nanos.auth.User'
+    'foam.core.auth.AuthorizationException',
+    'foam.core.auth.AuthService',
+    'foam.core.auth.Subject',
+    'foam.core.auth.User'
   ],
 
   messages: [
@@ -132,7 +132,7 @@ categories
     {
       name: 'who',
       class: 'Reference',
-      of: 'foam.nanos.auth.User',
+      of: 'foam.core.auth.User',
       // TODO: where group journal,
       tableCellFormatter: function(value, obj) {
         var self = this;
@@ -160,7 +160,7 @@ categories
     {
       name: 'when',
       class: 'FObjectProperty',
-      of: 'foam.nanos.cron.Schedule',
+      of: 'foam.core.cron.Schedule',
       factory: function() {
         return hughes.journal.CalendarSchedule.create();
       },
@@ -183,7 +183,7 @@ categories
       if ( e1.getWhen() == null ) return -1;
       if ( e2.getWhen() == null ) return 1;
 
-      return ((Event)(o1)).getWhen().getNextScheduledTime(foam.core.XLocator.get(), null).compareTo(((Event)(o2)).getWhen().getNextScheduledTime(foam.core.XLocator.get(), null));
+      return ((Event)(o1)).getWhen().getNextScheduledTime(foam.lang.XLocator.get(), null).compareTo(((Event)(o2)).getWhen().getNextScheduledTime(foam.lang.XLocator.get(), null));
      `
     },
     {
@@ -247,12 +247,12 @@ categories
       }
     },
     {
-      class: 'foam.nanos.fs.FileArray',
+      class: 'foam.core.fs.FileArray',
       name: 'attachments',
       tableCellFormatter: function(files) {
         if ( ! (Array.isArray(files) && files.length > 0) ) return;
         var actions = files.map((file) => {
-          return foam.core.Action.create({
+          return foam.lang.Action.create({
             label: file.filename,
             code: function() {
               window.open(file.address, '_blank');
@@ -269,7 +269,7 @@ categories
       },
       view: function(_, x) {
         return {
-          class: 'foam.nanos.fs.fileDropZone.FileDropZone',
+          class: 'foam.core.fs.fileDropZone.FileDropZone',
           files$: x.data?.attachments$,
           maxSize: 1000,
           supportedFormats: {

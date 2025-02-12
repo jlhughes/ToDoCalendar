@@ -2,7 +2,7 @@ foam.CLASS({
   package: 'hughes.journal',
   name: 'FollowUpAutoAgent',
   implements: [
-    'foam.core.ContextAgent',
+    'foam.lang.ContextAgent',
   ],
 
   documentation: `Create a follow-up Event for events
@@ -12,13 +12,13 @@ foam.CLASS({
 `,
 
   javaImports: [
-    'foam.core.Detachable',
-    'foam.core.X',
+    'foam.lang.Detachable',
+    'foam.lang.X',
     'foam.dao.DAO',
     'foam.dao.Sink',
     'static foam.mlang.MLang.*',
     'foam.mlang.sink.Count',
-    'foam.nanos.cron.Schedule'
+    'foam.core.cron.Schedule'
   ],
 
   methods: [

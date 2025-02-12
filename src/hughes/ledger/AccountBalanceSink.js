@@ -4,7 +4,7 @@ foam.CLASS({
   extends: 'foam.dao.AbstractSink',
 
   javaImports: [
-    'foam.core.X',
+    'foam.lang.X',
     'foam.dao.DAO',
     'foam.dao.Sink',
     'static foam.mlang.MLang.EQ'

@@ -5,11 +5,11 @@ foam.CLASS({
   documentation: ``,
 
   implements: [
-    'foam.nanos.auth.Authorizable',
-    'foam.nanos.auth.CreatedAware',
-    'foam.nanos.auth.CreatedByAware',
-    'foam.nanos.auth.LastModifiedAware',
-    'foam.nanos.auth.LastModifiedByAware'
+    'foam.core.auth.Authorizable',
+    'foam.core.auth.CreatedAware',
+    'foam.core.auth.CreatedByAware',
+    'foam.core.auth.LastModifiedAware',
+    'foam.core.auth.LastModifiedByAware'
   ],
 
   imports: [
@@ -21,11 +21,11 @@ foam.CLASS({
   ],
 
   javaImports: [
-    'foam.core.X',
-    'foam.nanos.auth.AuthorizationException',
-    'foam.nanos.auth.AuthService',
-    'foam.nanos.auth.Subject',
-    'foam.nanos.auth.User',
+    'foam.lang.X',
+    'foam.core.auth.AuthorizationException',
+    'foam.core.auth.AuthService',
+    'foam.core.auth.Subject',
+    'foam.core.auth.User',
   ],
 
   tableColumns: [
@@ -53,7 +53,7 @@ foam.CLASS({
     {
       name: 'owner',
       class: 'Reference',
-      of: 'foam.nanos.auth.User',
+      of: 'foam.core.auth.User',
       tableCellFormatter: function(value, obj) {
         var self = this;
         obj.userDAO.find(value).then(function(u) {
@@ -121,12 +121,12 @@ foam.CLASS({
       gridColumns: 6
     },
     {
-      class: 'foam.nanos.fs.FileArray',
+      class: 'foam.core.fs.FileArray',
       name: 'attachments',
       tableCellFormatter: function(files) {
         if ( ! (Array.isArray(files) && files.length > 0) ) return;
         var actions = files.map((file) => {
-          return foam.core.Action.create({
+          return foam.lang.Action.create({
             label: file.filename,
             code: function() {
               window.open(file.address, '_blank');
@@ -143,7 +143,7 @@ foam.CLASS({
       },
       view: function(_, x) {
         return {
-          class: 'foam.nanos.fs.fileDropZone.FileDropZone',
+          class: 'foam.core.fs.fileDropZone.FileDropZone',
           files$: x.data.attachments$,
           supportedFormats: {
             '*' : 'Any'

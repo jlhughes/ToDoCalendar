@@ -2,13 +2,13 @@ foam.CLASS({
   package: 'hughes.journal',
   name: 'CalendarSchedule',
   implements: [
-    'foam.nanos.cron.Schedule'
+    'foam.core.cron.Schedule'
   ],
 
   documenation: 'Schedule for day and time duration',
 
   javaImports: [
-    'foam.core.X'
+    'foam.lang.X'
   ],
 
   css: `
@@ -104,7 +104,7 @@ foam.CLASS({
       class: 'String', // 'Time',
       view: { class: 'foam.u2.TimeView' },
       // TODO: next hour
-      // factory: function() { return foam.core.Time.create(); },
+      // factory: function() { return foam.lang.Time.create(); },
       createVisibility: function(allDay) {
         if ( ! allDay ) {
           return foam.u2.DisplayMode.RW;

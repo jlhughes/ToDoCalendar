@@ -7,7 +7,7 @@ foam.CLASS({
 
   javaImports: [
     'foam.dao.DAO',
-    'foam.nanos.cron.Schedule',
+    'foam.core.cron.Schedule',
     'foam.util.SafetyUtil',
     'hughes.ledger.Transaction',
     'java.util.ArrayList',

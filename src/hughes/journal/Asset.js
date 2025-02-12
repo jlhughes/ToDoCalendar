@@ -3,8 +3,8 @@ foam.CLASS({
   name: 'Asset',
 
   implements: [
-    'foam.nanos.auth.CreatedAware',
-    'foam.nanos.auth.CreatedByAware'
+    'foam.core.auth.CreatedAware',
+    'foam.core.auth.CreatedByAware'
   ],
 
   imports: [
@@ -78,12 +78,12 @@ foam.CLASS({
       gridColumns: 6
     },
     {
-      class: 'foam.nanos.fs.FileArray',
+      class: 'foam.core.fs.FileArray',
       name: 'attachments',
       tableCellFormatter: function(files) {
         if ( ! (Array.isArray(files) && files.length > 0) ) return;
         var actions = files.map((file) => {
-          return foam.core.Action.create({
+          return foam.lang.Action.create({
             label: file.filename,
             code: function() {
               window.open(file.address, '_blank');
@@ -100,7 +100,7 @@ foam.CLASS({
       },
       view: function(_, x) {
         return {
-          class: 'foam.nanos.fs.fileDropZone.FileDropZone',
+          class: 'foam.core.fs.fileDropZone.FileDropZone',
           files$: x.data.attachments$,
           supportedFormats: {
             '*' : 'Any'

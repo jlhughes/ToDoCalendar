@@ -6,13 +6,13 @@ foam.CLASS({
   documentation: 'Manipulates account balance',
 
   javaImports: [
-    'foam.core.Detachable',
-    'foam.core.FObject',
-    'foam.core.X',
+    'foam.lang.Detachable',
+    'foam.lang.FObject',
+    'foam.lang.X',
     'foam.dao.AbstractSink',
     'foam.dao.DAO',
     'foam.dao.ProxySink',
-    'foam.nanos.logger.Loggers'
+    'foam.core.logger.Loggers'
   ],
 
   javaCode: `
@@ -41,7 +41,7 @@ foam.CLASS({
         if (sink != null) {
           ProxySink refinedSink = new ProxySink(x, sink) {
             @Override
-            public void put(Object obj, foam.core.Detachable sub) {
+            public void put(Object obj, foam.lang.Detachable sub) {
               Account account = (Account) ((FObject)obj).fclone();
               account.setBalance(account.findBalance(x));
               account.setTotal(account.findTotal(x));
